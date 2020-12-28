@@ -2,6 +2,7 @@ import javax.swing.*;
 
 public class UI {
     static JFrame frame;
+
     static JMenuBar menuBar;
 
     // file Menu
@@ -14,11 +15,9 @@ public class UI {
     static JMenu partOperationMenu;
     static JMenuItem stockOut, stockIn;
 
-    //table
-    static JTable table;
-
     public static void main(String[] args) {
         frame = new JFrame("NOXON spare parts management");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         menuBar = new JMenuBar();
         //file menu
@@ -48,18 +47,28 @@ public class UI {
         frame.setJMenuBar(menuBar);
 
         //table
-        String[] columnNames = {"Name", "型号", "零件号", "日期", "出库", "入库", "数量", "入库采购价格", "出库价格"};
-        Object[][] data = {
-                {"Belt", "A123", "A1234", "2020-12-31", 0, 1, 1, 1000, 2000}
-        };
-        table = new JTable(data, columnNames);
-        JScrollPane sp1 = new JScrollPane(table);
-        frame.add(sp1);
+        JPanel panel = new JPanel();
+        BoxLayout layout = new BoxLayout(panel, BoxLayout.Y_AXIS);
+        panel.setLayout(layout);
 
+        panel.add(generateTable());
+        panel.add(generateTable());
+        panel.add(generateTable());
+        panel.add(generateTable());
+        panel.add(generateTable());
+        panel.add(generateTable());
+
+        JScrollPane spTotal = new JScrollPane(panel);
+        frame.add(spTotal);
 
         frame.pack();
-//        frame.setSize(1920, 1040);
         frame.setSize(1000, 800);
         frame.setVisible(true);
+    }
+
+    private static JScrollPane generateTable() {
+        Table t = new Table();
+        JScrollPane sp = new JScrollPane(t.table);
+        return sp;
     }
 }
