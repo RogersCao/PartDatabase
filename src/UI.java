@@ -13,7 +13,7 @@ public class UI {
     static JMenuItem f1, f2;
     // part Operation Menu
     static JMenu partOperationMenu;
-    static JMenuItem stockOut, stockIn;
+    static JMenuItem stockOut, stockIn, update;
 
     public static void main(String[] args) {
         frame = new JFrame("NOXON spare parts management");
@@ -36,8 +36,10 @@ public class UI {
         partOperationMenu = new JMenu("Part Operation");
         stockOut = new JMenuItem("出库");
         stockIn = new JMenuItem("入库");
+        update = new JMenuItem("更新信息");
         partOperationMenu.add(stockOut);
         partOperationMenu.add(stockIn);
+        partOperationMenu.add(update);
 
 
         // add menubar to frame
@@ -50,7 +52,7 @@ public class UI {
         JPanel panel = new JPanel();
         BoxLayout layout = new BoxLayout(panel, BoxLayout.Y_AXIS);
         panel.setLayout(layout);
-
+        panel.add(new JLabel("Bearing"));
         panel.add(generateTable());
         panel.add(generateTable());
         panel.add(generateTable());
@@ -65,7 +67,6 @@ public class UI {
 
     private static JScrollPane generateTable() {
         Table t = new Table();
-        JScrollPane sp = new JScrollPane(t.table);
-        return sp;
+        return new JScrollPane(t.table);
     }
 }
