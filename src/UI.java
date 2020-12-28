@@ -54,9 +54,6 @@ public class UI {
         panel.add(generateTable());
         panel.add(generateTable());
         panel.add(generateTable());
-        panel.add(generateTable());
-        panel.add(generateTable());
-        panel.add(generateTable());
 
         JScrollPane spTotal = new JScrollPane(panel);
         frame.add(spTotal);
