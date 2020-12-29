@@ -1,9 +1,9 @@
 import Database.h2;
 import Obj.Category;
+import Obj.Customer;
 import Table.partCategory;
 
 import javax.swing.*;
-import java.util.Iterator;
 import java.util.List;
 
 public class UI {
@@ -20,6 +20,7 @@ public class UI {
     static JMenuItem stockOut, stockIn, update;
     // h2 data
     static List<Category> categoryList;
+    static List<Customer> customerList;
 
 
     public static void main(String[] args) {
@@ -62,7 +63,7 @@ public class UI {
             h2.createTable();
 
             categoryList = h2.queryCategoryList();
-            System.out.println("UI here");
+            customerList = h2.queryCustomerList();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("场面一度十分尴尬");
@@ -72,7 +73,7 @@ public class UI {
         JTabbedPane tp = new JTabbedPane();
         //each part has own table in tab pane
         for (Category temp : categoryList) {
-            tp.add(temp.name, new partCategory(temp.partList).sp);
+            tp.add(temp.name, new partCategory(temp.partList,customerList).sp);
         }
 
         frame.add(tp);

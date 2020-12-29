@@ -21,7 +21,7 @@ public class Category {
             partList = h2.queryPartByCategory(categoryID);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Category 场面一度十分尴尬");
+            System.out.println("场面一度十分尴尬");
         }
         System.out.println("Category built");
         h2.close();

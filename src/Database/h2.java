@@ -1,6 +1,7 @@
 package Database;
 
 import Obj.Category;
+import Obj.Customer;
 import Obj.Part;
 import Obj.Record;
 
@@ -58,7 +59,6 @@ public class h2 {
 
     public void insertRecord(String Date, String CustomerID, String PartID, int QuaIN, int QuaOUT, int CurrentStock, String remark) throws Exception {
         String query = "INSERT INTO Record VALUES('" + UUID.randomUUID() + "', " + Date + ", " + "'" + CustomerID + "', " + "'" + PartID + "', " + QuaIN + ", " + QuaOUT + ", " + CurrentStock + ", " + "'" + remark + "'" + ")";
-        System.out.println(query);
         stmt.executeUpdate(query);
     }
 
@@ -136,8 +136,48 @@ public class h2 {
         return list;
     }// 查询每一条record return record list
 
+    public List<Customer> queryCustomerList() throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        List<Customer> list = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Customer");
+        while (rs.next()) {
+            list.add(new Customer(rs.getString("CUSTOMERID"), rs.getString("Name")));
+        }
+        h2.close();
+        return list;
+    }// 查询CategoryList
+
     public void close() throws Exception {
         stmt.close();
         conn.close();
     }// 释放资源 关闭连接
+    public static void main(String[] args) {
+        h2 h2 = new h2();
+        try {
+            h2.connection();
+            h2.statement();
+            h2.createTable();
+
+            h2.insertRecord("DATE '2020-1-11'","9e35fcf1-4bd7-47f0-af32-f870c6f18afd","LA0154",0,2,8,"");
+            h2.insertRecord("DATE '2020-1-11'","566d353d-4508-41ed-80b1-9d33e17647fd","LA0154",0,2,6,"");
+
+//            h2.queryCategoryList();
+//            h2.queryCustomer();
+//            h2.queryPart();
+//            h2.queryRecord();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("场面一度十分尴尬");
+        } finally {
+            try {
+                h2.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("关都关不上了");
+            }
+        }
+    }
 }

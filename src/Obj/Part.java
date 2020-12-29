@@ -27,7 +27,7 @@ public class Part {
             recordList = h2.queryDisplayRecord(partId);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Part 场面一度十分尴尬");
+            System.out.println("场面一度十分尴尬");
         }
         h2.close();
     }
