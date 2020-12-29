@@ -53,5 +53,14 @@ public class Table {
             System.out.println(e.getColumn());
             System.out.println(table.getModel().getValueAt(e.getFirstRow(), e.getColumn()));
         });
+
+        //action on click
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                int row = table.rowAtPoint(e.getPoint());
+                int col = table.columnAtPoint(e.getPoint());
+                System.out.println(" Value in the cell clicked :" + " " + table.getValueAt(row, col).toString());
+            }
+        });
     }
 }
