@@ -65,12 +65,12 @@ public class h2Test {
             e.printStackTrace();
             System.out.println("场面一度十分尴尬");
         } finally {
-//            try {
-//                h2.close();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                System.out.println("关都关不上了");
-//            }
+            try {
+                h2.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("关都关不上了");
+            }
         }
     }
 }
