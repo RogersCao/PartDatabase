@@ -57,9 +57,15 @@ public class Table {
         //action on click
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent e) {
-                int row = table.rowAtPoint(e.getPoint());
-                int col = table.columnAtPoint(e.getPoint());
-                System.out.println(" Value in the cell clicked :" + " " + table.getValueAt(row, col).toString());
+                if(e.isAltDown()){
+                    int row = table.rowAtPoint(e.getPoint());
+                    int col = table.columnAtPoint(e.getPoint());
+                    System.out.println(e.isAltDown());
+                    System.out.println(e.getButton());
+                    JOptionPane.showMessageDialog(null, " Value in the cell clicked :" + " "
+                            + table.getValueAt(row, col).toString());
+                    System.out.println(" Value in the cell clicked :" + " " + table.getValueAt(row, col).toString());
+                }
             }
         });
     }
