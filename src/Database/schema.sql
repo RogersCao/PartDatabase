@@ -3,9 +3,9 @@
 -- DROP TABLE Customer;
 -- DROP TABLE Category;
 
-CREATE TABLE IF NOT EXISTS Category ( CategoryID uuid default random_uuid() PRIMARY KEY,  Name VARCHAR(50) NOT NULL);
+CREATE TABLE IF NOT EXISTS Category (CategoryID uuid default random_uuid() PRIMARY KEY, Name VARCHAR(50) NOT NULL);
 
-CREATE TABLE IF NOT EXISTS Customer ( CustomerID uuid default random_uuid() PRIMARY KEY,  Name VARCHAR(50) NOT NULL);
+CREATE TABLE IF NOT EXISTS Customer (CustomerID uuid default random_uuid() PRIMARY KEY, Name VARCHAR(50) NOT NULL);
 
 CREATE TABLE IF NOT EXISTS Part (
 	PartID VARCHAR(50) NOT NULL PRIMARY KEY,
@@ -28,3 +28,5 @@ CREATE TABLE IF NOT EXISTS Record (
 	foreign key (CustomerID) references Customer(CustomerID),
 	foreign key (PartID) references Part(PartID)
 );
+
+INSERT INTO Category VALUES('');
