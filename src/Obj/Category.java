@@ -1,3 +1,5 @@
+package Obj;
+
 public class Category {
     String name;
 

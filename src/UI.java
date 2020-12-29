@@ -1,3 +1,5 @@
+import Table.partCategory;
+
 import javax.swing.*;
 
 public class UI {
@@ -41,32 +43,22 @@ public class UI {
         partOperationMenu.add(stockIn);
         partOperationMenu.add(update);
 
-
         // add menubar to frame
         menuBar.add(fileMenu);
         menuBar.add(searchMenu);
         menuBar.add(partOperationMenu);
         frame.setJMenuBar(menuBar);
 
-        //table
-        JPanel panel = new JPanel();
-        BoxLayout layout = new BoxLayout(panel, BoxLayout.Y_AXIS);
-        panel.setLayout(layout);
-        panel.add(new JLabel("Bearing"));
-        panel.add(generateTable());
-        panel.add(generateTable());
-        panel.add(generateTable());
+        JTabbedPane tp = new JTabbedPane();
+        tp.add("Bearing", new partCategory().sp);
+        tp.add("Belt", new partCategory().sp);
+        tp.add("Belt", new partCategory().sp);
+        tp.add("Belt", new partCategory().sp);
 
-        JScrollPane spTotal = new JScrollPane(panel);
-        frame.add(spTotal);
+        frame.add(tp);
 
         frame.pack();
         frame.setSize(1000, 800);
         frame.setVisible(true);
-    }
-
-    private static JScrollPane generateTable() {
-        Table t = new Table();
-        return new JScrollPane(t.table);
     }
 }

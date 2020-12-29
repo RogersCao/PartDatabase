@@ -1,25 +1,27 @@
+package Table;
+
 import javax.swing.*;
 
-public class Table {
+public class partTable {
     public JTable table;
 
-    public Table() {
-        String[] columnNames = {"Date", "Customer", "Qty.IN", "Qty.OUT", "Stock", "Remarks", "Payment"};
+    public partTable() {
+        String[] columnNames = {"Date", "Customer", "Qty.IN", "Qty.OUT", "Stock", "Remarks"};
         Object[][] data = {
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed.", null},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
+                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
         };
         table = new JTable(data, columnNames);
         table.getTableHeader().setReorderingAllowed(false);
