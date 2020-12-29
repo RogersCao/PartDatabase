@@ -1,28 +1,28 @@
 package Table;
 
+import Obj.Part;
+
 import javax.swing.*;
+import java.text.SimpleDateFormat;
 
 public class partTable {
     public JTable table;
 
-    public partTable() {
+    public partTable(Part part) {
         String[] columnNames = {"Date", "Customer", "Qty.IN", "Qty.OUT", "Stock", "Remarks"};
-        Object[][] data = {
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-                {"2020-12-31", "Wuhai WWTP Spare Parts Service", null, 5, 15, "RMB 3,616 each. Will pay after service Contract closed."},
-        };
+        Object[][] data = new Object[part.recordList.size()][6];
+
+        for (int i = 0; i < part.recordList.size(); i++) {
+            SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+            data[i][0]=ft.format(part.recordList.get(i).Date);
+            data[i][1]=part.recordList.get(i).CustomerID;
+            data[i][2]=part.recordList.get(i).QuantityIN;
+            data[i][3]=part.recordList.get(i).QuantityOUT;
+            data[i][4]=part.recordList.get(i).CurrentStock;
+            data[i][5]=part.recordList.get(i).Remark;
+        }
+
+
         table = new JTable(data, columnNames);
         table.getTableHeader().setReorderingAllowed(false);
 
@@ -59,7 +59,7 @@ public class partTable {
         //action on click
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent e) {
-                if(e.isAltDown()){
+                if (e.isAltDown()) {
                     int row = table.rowAtPoint(e.getPoint());
                     int col = table.columnAtPoint(e.getPoint());
                     System.out.println(e.isAltDown());

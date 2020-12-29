@@ -1,12 +1,14 @@
+import Database.h2;
+import Obj.Category;
 import Table.partCategory;
 
 import javax.swing.*;
+import java.util.Iterator;
+import java.util.List;
 
 public class UI {
     static JFrame frame;
-
     static JMenuBar menuBar;
-
     // file Menu
     static JMenu fileMenu;
     static JMenuItem m1, m2;
@@ -16,11 +18,14 @@ public class UI {
     // part Operation Menu
     static JMenu partOperationMenu;
     static JMenuItem stockOut, stockIn, update;
+    // h2 data
+    static List<Category> categoryList;
+
 
     public static void main(String[] args) {
         frame = new JFrame("NOXON spare parts management");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        //MENU
         menuBar = new JMenuBar();
         //file menu
         fileMenu = new JMenu("File");
@@ -42,21 +47,35 @@ public class UI {
         partOperationMenu.add(stockOut);
         partOperationMenu.add(stockIn);
         partOperationMenu.add(update);
-
         // add menubar to frame
         menuBar.add(fileMenu);
         menuBar.add(searchMenu);
         menuBar.add(partOperationMenu);
         frame.setJMenuBar(menuBar);
+        //END OF MENU
 
+        //h2 db connection
+        h2 h2 = new h2();
+        try {
+            h2.connection();
+            h2.statement();
+            h2.createTable();
+
+            categoryList = h2.queryCategoryList();
+            System.out.println("UI here");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("场面一度十分尴尬");
+        }
+
+        // add tab pane, each tab is a category
         JTabbedPane tp = new JTabbedPane();
-        tp.add("Bearing", new partCategory().sp);
-        tp.add("Belt", new partCategory().sp);
-        tp.add("Belt", new partCategory().sp);
-        tp.add("Belt", new partCategory().sp);
+        //each part has own table in tab pane
+        for (Category temp : categoryList) {
+            tp.add(temp.name, new partCategory(temp.partList).sp);
+        }
 
         frame.add(tp);
-
         frame.pack();
         frame.setSize(1000, 800);
         frame.setVisible(true);

@@ -1,12 +1,18 @@
 package Database;
 
+import Obj.Category;
+import Obj.Part;
+import Obj.Record;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public class h2Test {
+public class h2 {
     // 数据库连接URL，当前连接的是C:/H2目录下的db数据库(h2数据存储有两种模式,一种是存储在硬盘上,一种是存储在内存中)
     private static final String JDBC_URL = "jdbc:h2:C:/H2/db"; //jdbc:h2:mem:数据库名称
 
@@ -33,7 +39,7 @@ public class h2Test {
         stmt.execute("CREATE TABLE IF NOT EXISTS Record (RecordID uuid default random_uuid() PRIMARY KEY, Date DATE NOT NULL, CustomerID uuid NOT NULL, PartID VARCHAR(50) NOT NULL, QuantityIN int NOT NULL, QuantityOUT int NOT NULL, CurrentStock int NOT NULL, Remark VARCHAR(300), foreign key (CustomerID) references Customer(CustomerID), foreign key (PartID) references Part(PartID))");
     }
 
-
+    //insert
     public void insertCategory(String categoryName) throws Exception {
         String query = "INSERT INTO Category VALUES('" + UUID.randomUUID() + "', '" + categoryName + "')";
         stmt.executeUpdate(query);
@@ -56,6 +62,7 @@ public class h2Test {
         stmt.executeUpdate(query);
     }
 
+    //query
     public void queryCategory() throws Exception {
         ResultSet rs = stmt.executeQuery("SELECT * FROM Category");
         while (rs.next()) {
@@ -82,46 +89,55 @@ public class h2Test {
     public void queryRecord() throws Exception {
         ResultSet rs = stmt.executeQuery("SELECT * FROM Record");
         while (rs.next()) {
-            System.out.println(rs.getString("RECORDID") + "," + rs.getString("DATE")+ ","
-                    + rs.getString("CUSTOMERID")+ "," + rs.getString("PARTID")+ ","
-                    + rs.getString("QUANTITYIN")+ "," + rs.getString("QUANTITYOUT")+ ","
-                    + rs.getString("CURRENTSTOCK")+ "," + rs.getString("REMARK"));
+            System.out.println(rs.getString("RECORDID") + "," + rs.getString("DATE") + ","
+                    + rs.getString("CUSTOMERID") + "," + rs.getString("PARTID") + ","
+                    + rs.getString("QUANTITYIN") + "," + rs.getString("QUANTITYOUT") + ","
+                    + rs.getString("CURRENTSTOCK") + "," + rs.getString("REMARK"));
         }
     }// 查询数据
 
+
+    public List<Category> queryCategoryList() throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        List<Category> list = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Category");
+        while (rs.next()) {
+            list.add(new Category(rs.getString("CATEGORYID"), rs.getString("Name")));
+        }
+        h2.close();
+        return list;
+    }// 查询CategoryList
+
+    public List<Part> queryPartByCategory(String categoryID) throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        List<Part> list = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Part WHERE categoryID = '" + categoryID + "'");
+        while (rs.next()) {
+            list.add(new Part(rs.getString("PartID"), rs.getString("ModelNum"), rs.getString("Name"), rs.getString("CategoryID"), Integer.parseInt(rs.getString("Stock"))));
+        }
+        h2.close();
+        return list;
+    }// 查询Category中的Part
+
+    public List<Record> queryDisplayRecord(String PartID) throws Exception {
+        List<Record> list = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Record WHERE PartID = '" + PartID + "'");
+        while (rs.next()) {
+            list.add(new Record(rs.getString("RECORDID"), rs.getString("DATE"),
+                    rs.getString("CUSTOMERID"), rs.getString("PARTID"),
+                    Integer.parseInt(rs.getString("QUANTITYIN")),
+                    Integer.parseInt(rs.getString("QUANTITYOUT")),
+                    Integer.parseInt(rs.getString("CURRENTSTOCK")), rs.getString("REMARK")));
+        }
+        return list;
+    }// 查询每一条record return record list
 
     public void close() throws Exception {
         stmt.close();
         conn.close();
     }// 释放资源 关闭连接
-
-    public static void main(String[] args) {
-        h2Test h2 = new h2Test();
-        try {
-            h2.connection();
-            h2.statement();
-            h2.createTable();
-
-//            h2.insertCategory("Bearing");
-//            h2.insertCustomer("cao");
-//            h2.insertPart("LA0131", "6222-2Z/C3", "Ball Bearing", "f8718f66-abd2-44bf-9cc6-400557d71cb8", 10);
-//            h2.insertRecord("DATE '2004-12-31'", "fe0cf13f-44cc-4855-be39-724a85692e73", "LA0131", 0, 5, 5, "");
-
-            h2.queryCategory();
-            h2.queryCustomer();
-            h2.queryPart();
-            h2.queryRecord();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("场面一度十分尴尬");
-        } finally {
-            try {
-                h2.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("关都关不上了");
-            }
-        }
-    }
 }
