@@ -15,7 +15,8 @@ import java.util.UUID;
 
 public class h2 {
     // 数据库连接URL，当前连接的是C:/H2目录下的db数据库(h2数据存储有两种模式,一种是存储在硬盘上,一种是存储在内存中)
-    private static final String JDBC_URL = "jdbc:h2:./db"; //jdbc:h2:mem:数据库名称
+//    private static final String JDBC_URL = "jdbc:h2:./db"; //jdbc:h2:mem:数据库名称
+    private static final String JDBC_URL = "jdbc:h2:C:/H2/db"; //jdbc:h2:mem:数据库名称
 
     private static final String USER = "root";
     private static final String PASSWORD = "111000Cao";
