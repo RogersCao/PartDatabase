@@ -4,8 +4,6 @@ import Obj.Customer;
 import Table.partCategory;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class UI {
@@ -28,6 +26,18 @@ public class UI {
     static List<Category> categoryList;
     static List<Customer> customerList;
 
+    static JTabbedPane tp;
+
+    public static void update(h2 h2) throws Exception {
+        categoryList = h2.queryCategoryList();
+        customerList = h2.queryCustomerList();
+        tp.removeAll();
+
+        //each part has own table in tab pane
+        for (Category temp : categoryList) {
+            tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
+        }
+    }
 
     public static void main(String[] args) {
         //h2 db connection
@@ -78,9 +88,10 @@ public class UI {
                     "Double check: \n Are you sure the name of category is " + name + " ?",
                     "Final warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {
-                System.out.println(name);
                 try {
-//                        h2.insertCategory(name);//insert into database
+                    System.out.println(name);
+                    h2.insertCategory(name);//insert into database
+                    update(h2);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -142,7 +153,7 @@ public class UI {
         //END OF MENU
 
         // add tab pane, each tab is a category
-        JTabbedPane tp = new JTabbedPane();
+        tp = new JTabbedPane();
         //each part has own table in tab pane
         for (Category temp : categoryList) {
             tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
@@ -153,4 +164,6 @@ public class UI {
         frame.setSize(1000, 800);
         frame.setVisible(true);
     }
+
+
 }
