@@ -84,20 +84,24 @@ public class UI {
         newPart = new JMenuItem("New Part");
         newCategory.addActionListener(e -> {
             String name = JOptionPane.showInputDialog("Enter the name of category", null);
-            int result = JOptionPane.showConfirmDialog(frame,
-                    "Double check: \n Are you sure the name of category is " + name + " ?",
-                    "Final warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (result == JOptionPane.YES_OPTION) {
-                try {
-                    System.out.println(name);
-                    h2.insertCategory(name);//insert into database
-                    update(h2);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
+            if(!name.equals("")){
+                int result = JOptionPane.showConfirmDialog(frame,
+                        "Double check: \n Are you sure the name of category is " + name + " ?",
+                        "Final warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    try {
+                        System.out.println(name);
+                        h2.insertCategory(name);//insert into database
+                        update(h2);
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                    //code for local info update
+                } else if (result == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(null, "OK, try again then.", "ALERT", JOptionPane.WARNING_MESSAGE);
                 }
-                //code for local info update
-            } else if (result == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(null, "OK, try again then.", "ALERT", JOptionPane.WARNING_MESSAGE);
+            }else {
+                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
         });
         newPart.addActionListener(e -> {
@@ -165,6 +169,4 @@ public class UI {
         frame.setSize(1000, 800);
         frame.setVisible(true);
     }
-
-
 }
