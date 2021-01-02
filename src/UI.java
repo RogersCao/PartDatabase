@@ -127,7 +127,8 @@ public class UI {
                                     "Final warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                             if (result == JOptionPane.YES_OPTION) {
                                 System.out.println("PartID: " + partID + " modelID: " + modelID + " name: " + name + " categoryID: " + value.categoryID + " quantity: " + quantity);
-//                                    h2.insertPart(partID, modelID, name, value.categoryID, quantity);//insert into database
+                                h2.insertPart(partID, modelID, name, value.categoryID, quantity);//insert into database
+                                update(h2);
                                 //code for local info update
                             } else if (result == JOptionPane.NO_OPTION) {
                                 JOptionPane.showMessageDialog(null, "OK, try again then.", "ALERT", JOptionPane.WARNING_MESSAGE);
