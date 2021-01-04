@@ -23,7 +23,6 @@ public class Category {
             e.printStackTrace();
             System.out.println("场面一度十分尴尬");
         }
-        System.out.println("Category built");
         h2.close();
     }
 }

@@ -28,7 +28,6 @@ public class h2 {
     public void connection() throws Exception {
         Class.forName(DRIVER_CLASS);
         conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-        System.out.println("connect");
     }
 
     public void statement() throws Exception {
@@ -65,16 +64,6 @@ public class h2 {
     }
 
     //query
-    public void queryPart(String condition, String value) throws Exception {
-        System.out.println("SELECT * FROM Part WHERE UPPER(" + condition + ") LIKE UPPER('%" + value + "%')");
-        ResultSet rs = stmt.executeQuery("SELECT * FROM Part WHERE UPPER(" + condition + ") LIKE UPPER('%" + value + "%')");
-        while (rs.next()) {
-            System.out.println(rs.getString("PartID") + "," + rs.getString("ModelNum")
-                    + "," + rs.getString("Name") + "," + rs.getString("CategoryID")
-                    + "," + rs.getString("Stock"));
-        }
-    }// 查询part
-
     public List<Category> queryCategory(String value) throws Exception {
         h2 h2 = new h2();
         h2.connection();
@@ -86,7 +75,7 @@ public class h2 {
         }
         h2.close();
         return list;
-    }// 查询category
+    }// 查询category 已完成
 
     public List<Customer> queryCustomer(String value) throws Exception {
         h2 h2 = new h2();
@@ -99,7 +88,19 @@ public class h2 {
         }
         h2.close();
         return list;
-    }// 查询customer
+    }// 查询customer 正在施工
+
+    public void queryPart(String condition, String value) throws Exception {
+        System.out.println("SELECT * FROM Part WHERE UPPER(" + condition + ") LIKE UPPER('%" + value + "%')");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Part WHERE UPPER(" + condition + ") LIKE UPPER('%" + value + "%')");
+        while (rs.next()) {
+            System.out.println(rs.getString("PartID") + "," + rs.getString("ModelNum")
+                    + "," + rs.getString("Name") + "," + rs.getString("CategoryID")
+                    + "," + rs.getString("Stock"));
+        }
+    }// 查询part
+
+
 
     public void queryRecord() throws Exception {
         ResultSet rs = stmt.executeQuery("SELECT * FROM Record");
@@ -111,6 +112,7 @@ public class h2 {
         }
     }// 查询数据
 
+    //不要动，这些是生成全部数据使用的----------------------------------------------------------------------------------------
     public List<Category> queryCategoryList() throws Exception {
         h2 h2 = new h2();
         h2.connection();
@@ -162,6 +164,7 @@ public class h2 {
         h2.close();
         return list;
     }// 查询CategoryList
+    //------------------------------------------------------------------------------------------------------------------
 
     public void close() throws Exception {
         stmt.close();

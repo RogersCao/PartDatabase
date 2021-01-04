@@ -18,7 +18,7 @@ public class partCategory {
             generatePartTable(panel, temp, customerList);
         }
 
-        sp = new JScrollPane(panel);
+        sp = new JScrollPane(panel);//add ing panel into sp using constructor
     }
 
     private static void generatePartTable(JPanel panel, Part part, List<Customer> customerList) {
