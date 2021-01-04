@@ -14,7 +14,7 @@ public class UI {
     static JMenuItem m1, m2;
     // search menu
     static JMenu searchMenu;
-    static JMenuItem f1, f2;
+    static JMenuItem byPart, byCategory, byCustomer;
     // part Operation Menu
     static JMenu partOperationMenu;
     static JMenuItem stockOut, stockIn, update;
@@ -58,18 +58,75 @@ public class UI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //MENU
         menuBar = new JMenuBar();
+
         //file menu
         fileMenu = new JMenu("File");
         m1 = new JMenuItem("MenuItem1");
         m2 = new JMenuItem("MenuItem2");
         fileMenu.add(m1);
         fileMenu.add(m2);
+
         //search menu
         searchMenu = new JMenu("Search");
-        f1 = new JMenuItem("MenuItem1");
-        f2 = new JMenuItem("MenuItem2");
-        searchMenu.add(f1);
-        searchMenu.add(f2);
+        byPart = new JMenuItem("Search by part");
+        byCategory = new JMenuItem("Search by Category");
+        byCustomer = new JMenuItem("Search by Customer");
+        byPart.addActionListener(e -> {
+            String[] options = {"By Name", "By PartID", "By ModelNum"};
+            String searchStrategy = (String) JOptionPane.showInputDialog(null, "Search part by...",
+                    "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null,
+                    options, // Array of choices
+                    options[0]); // Initial choice
+
+            try {
+                String condition = JOptionPane.showInputDialog("Enter the condition", null);
+                if (condition.equals("")) {
+                    JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    switch (searchStrategy) {
+                        case "By Name":
+                            h2.queryPart("NAME", condition);
+                            break;
+                        case "By PartID":
+                            h2.queryPart("PARTID", condition);
+                            break;
+                        case "By ModelNum":
+                            h2.queryPart("MODELNUM", condition);
+                            break;
+                    }
+                }
+            } catch (Exception numberException) {
+                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        byCategory.addActionListener(e -> {
+            try {
+                String condition = JOptionPane.showInputDialog("Enter the name of category", null);
+                if (condition.equals("")) {
+                    JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    h2.queryCategory(condition);
+                }
+            } catch (Exception numberException) {
+                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        byCustomer.addActionListener(e -> {
+            try {
+                String condition = JOptionPane.showInputDialog("Enter the name of customer", null);
+                if (condition.equals("")) {
+                    JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    h2.queryCustomer(condition);
+                }
+            } catch (Exception numberException) {
+                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        searchMenu.add(byPart);
+        searchMenu.add(byCategory);
+        searchMenu.add(byCustomer);
+
         // part Operation Menu
         partOperationMenu = new JMenu("Part Operation");
         stockOut = new JMenuItem("出库");
@@ -78,13 +135,14 @@ public class UI {
         partOperationMenu.add(stockOut);
         partOperationMenu.add(stockIn);
         partOperationMenu.add(update);
+
         // "new" Menu
         newOp = new JMenu("New");
         newCategory = new JMenuItem("New Category");
         newPart = new JMenuItem("New Part");
         newCategory.addActionListener(e -> {
             String name = JOptionPane.showInputDialog("Enter the name of category", null);
-            if(!name.equals("")){
+            if (!name.equals("")) {
                 int result = JOptionPane.showConfirmDialog(frame,
                         "Double check: \n Are you sure the name of category is " + name + " ?",
                         "Final warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -100,7 +158,7 @@ public class UI {
                 } else if (result == JOptionPane.NO_OPTION) {
                     JOptionPane.showMessageDialog(null, "OK, try again then.", "ALERT", JOptionPane.WARNING_MESSAGE);
                 }
-            }else {
+            } else {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
         });
@@ -149,6 +207,7 @@ public class UI {
         });
         newOp.add(newCategory);
         newOp.add(newPart);
+
         // add menubar to frame
         menuBar.add(fileMenu);
         menuBar.add(searchMenu);
