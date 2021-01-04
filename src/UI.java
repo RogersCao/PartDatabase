@@ -14,7 +14,7 @@ public class UI {
     static JMenuItem m1, m2;
     // search menu
     static JMenu searchMenu;
-    static JMenuItem byPart, byCategory, byCustomer;
+    static JMenuItem byPart, byCategory, byCustomer, clear;
     // part Operation Menu
     static JMenu partOperationMenu;
     static JMenuItem stockOut, stockIn, update;
@@ -39,7 +39,29 @@ public class UI {
         }
     }
 
-    public static void main(String[] args) {
+    public static void updateByCategory(h2 h2, List<Category> listOfCategoryAfterSearch) throws Exception {
+        categoryList = listOfCategoryAfterSearch;
+        customerList = h2.queryCustomerList();
+        tp.removeAll();
+
+        //each part has own table in tab pane
+        for (Category temp : categoryList) {
+            tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
+        }
+    }
+
+    public static void updateByCustomer(h2 h2, List<Customer> listOfCustomerAfterSearch) throws Exception {
+//        categoryList = h2.queryCategoryList();
+//        customerList = listOfCustomerAfterSearch;
+//        tp.removeAll();
+//
+//        //each part has own table in tab pane
+//        for (Category temp : categoryList) {
+//            tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
+//        }
+    }
+
+    public static void main(String[] args) throws Exception {
         //h2 db connection
         h2 h2 = new h2();
         try {
@@ -71,6 +93,7 @@ public class UI {
         byPart = new JMenuItem("Search by part");
         byCategory = new JMenuItem("Search by Category");
         byCustomer = new JMenuItem("Search by Customer");
+        clear = new JMenuItem("Clear search");
         byPart.addActionListener(e -> {
             String[] options = {"By Name", "By PartID", "By ModelNum"};
             String searchStrategy = (String) JOptionPane.showInputDialog(null, "Search part by...",
@@ -105,7 +128,7 @@ public class UI {
                 if (condition.equals("")) {
                     JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    h2.queryCategory(condition);
+                    updateByCategory(h2, h2.queryCategory(condition));
                 }
             } catch (Exception numberException) {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
@@ -117,15 +140,23 @@ public class UI {
                 if (condition.equals("")) {
                     JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    h2.queryCustomer(condition);
+                    updateByCustomer(h2, h2.queryCustomer(condition));
                 }
             } catch (Exception numberException) {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
         });
+        clear.addActionListener(e -> {
+            try {
+                update(h2);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        });
         searchMenu.add(byPart);
         searchMenu.add(byCategory);
         searchMenu.add(byCustomer);
+        searchMenu.add(clear);
 
         // part Operation Menu
         partOperationMenu = new JMenu("Part Operation");
@@ -219,9 +250,7 @@ public class UI {
         // add tab pane, each tab is a category
         tp = new JTabbedPane();
         //each part has own table in tab pane
-        for (Category temp : categoryList) {
-            tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
-        }
+        update(h2);
 
         frame.add(tp);
         frame.pack();

@@ -6,7 +6,6 @@ import Obj.Part;
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
-import java.util.Iterator;
 import java.util.List;
 
 public class partTable {

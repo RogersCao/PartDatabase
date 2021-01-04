@@ -75,22 +75,31 @@ public class h2 {
         }
     }// 查询part
 
-    public void queryCategory(String value) throws Exception {
-        System.out.println("SELECT * FROM Category WHERE UPPER(NAME) LIKE UPPER('%" + value + "%')");
+    public List<Category> queryCategory(String value) throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        List<Category> list = new ArrayList<>();
         ResultSet rs = stmt.executeQuery("SELECT * FROM Category WHERE UPPER(NAME) LIKE UPPER('%" + value + "%')");
         while (rs.next()) {
-            System.out.println(rs.getString("CATEGORYID") + "," + rs.getString("Name"));
+            list.add(new Category(rs.getString("CATEGORYID"), rs.getString("Name")));
         }
+        h2.close();
+        return list;
     }// 查询category
 
-    public void queryCustomer(String value) throws Exception {
-        System.out.println("SELECT * FROM Customer WHERE UPPER(NAME) LIKE UPPER('%" + value + "%')");
+    public List<Customer> queryCustomer(String value) throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        List<Customer> list = new ArrayList<>();
         ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE UPPER(NAME) LIKE UPPER('%" + value + "%')");
         while (rs.next()) {
-            System.out.println(rs.getString("CUSTOMERID") + "," + rs.getString("Name"));
+            list.add(new Customer(rs.getString("CUSTOMERID"), rs.getString("NAME")));
         }
+        h2.close();
+        return list;
     }// 查询customer
-
 
     public void queryRecord() throws Exception {
         ResultSet rs = stmt.executeQuery("SELECT * FROM Record");
@@ -101,7 +110,6 @@ public class h2 {
                     + rs.getString("CURRENTSTOCK") + "," + rs.getString("REMARK"));
         }
     }// 查询数据
-
 
     public List<Category> queryCategoryList() throws Exception {
         h2 h2 = new h2();
@@ -114,7 +122,7 @@ public class h2 {
         }
         h2.close();
         return list;
-    }// 查询CategoryList
+    }//查询CategoryList (all) (也是update的关键 生成category就可以生成下面的所有信息)
 
     public List<Part> queryPartByCategory(String categoryID) throws Exception {
         h2 h2 = new h2();
