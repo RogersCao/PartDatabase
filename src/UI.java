@@ -51,7 +51,7 @@ public class UI {
         }
     }
 
-    public static void updateByCustomer(h2 h2) throws Exception {
+    public static void updateByCustomer(h2 h2, String condition) throws Exception {
         categoryList = h2.queryCategoryList();
         customerList = h2.queryCustomerList();
         tp.removeAll();
@@ -66,22 +66,17 @@ public class UI {
             JScrollPane pane = (JScrollPane) currentTabScrollPane;
             JViewport view = pane.getViewport();
             Component component = view.getComponents()[0];
-            System.out.println(component);//2 component as a group (table(header)+panel)
             JPanel panel = (JPanel) component;
             Component[] components = panel.getComponents();
-
             for (int i = 0; i < components.length; i += 2) {
-                JTable headerTable = (JTable) components[i];
-                System.out.println(headerTable);
-
+                JTable headerTable = (JTable) components[i];//零件信息table
                 JScrollPane tableScrollPane = (JScrollPane) components[i + 1];
                 JViewport viewSecond = tableScrollPane.getViewport();
                 Component[] tableScrollPaneContent = viewSecond.getComponents();
-                JTable table = (JTable) tableScrollPaneContent[0];
-//                Component[] temp = tableScrollPane.getComponents();
-                System.out.println(table.getRowCount());
+                JTable table = (JTable) tableScrollPaneContent[0];//记录table
+                //compare
+                //remove
             }
-
         }
     }
 
@@ -175,7 +170,7 @@ public class UI {
                 if (condition.equals("")) {
                     JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    updateByCustomer(h2);
+                    updateByCustomer(h2, condition);
                 }
             } catch (Exception numberException) {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
