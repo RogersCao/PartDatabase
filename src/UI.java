@@ -100,15 +100,52 @@ public class UI {
         }
     }
 
-    public static void updateByPart(h2 h2, List<Customer> listOfCustomerAfterSearch) throws Exception {
-//        categoryList = h2.queryCategoryList();
-//        customerList = listOfCustomerAfterSearch;
-//        tp.removeAll();
-//
-//        //each part has own table in tab pane
-//        for (Category temp : categoryList) {
-//            tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
-//        }
+    public static void updateByPart(h2 h2, String condition, String searchBy) throws Exception {
+        categoryList = h2.queryCategoryList();
+        customerList = h2.queryCustomerList();
+        tp.removeAll();
+
+        //each part has own table in tab pane
+        for (Category temp : categoryList) {
+            tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
+        }
+        try {
+            Component[] tpComponents = tp.getComponents();
+            for (Component currentTabScrollPane : tpComponents) {//the ScrollPane component of each tab
+                JScrollPane pane = (JScrollPane) currentTabScrollPane;
+                JViewport view = pane.getViewport();
+                Component component = view.getComponents()[0];
+                JPanel panel = (JPanel) component;
+                Component[] components = panel.getComponents();
+                int componentCount = components.length;
+                for (int i = 0; i < componentCount; i += 2) {
+                    JTable headerTable = (JTable) components[i];//零件信息table
+                    JScrollPane tableScrollPane = (JScrollPane) components[i + 1];
+
+                    String temp = "";
+                    switch (searchBy) {
+                        case "By Name":
+                            temp = (String) headerTable.getModel().getValueAt(0, 1);
+                            break;
+                        case "By PartID":
+                            temp = (String) headerTable.getModel().getValueAt(0, 0);
+                            break;
+                        case "By ModelNum":
+                            temp = (String) headerTable.getModel().getValueAt(0, 2);
+                            break;
+                    }
+                    if (!temp.toLowerCase().contains(condition.toLowerCase())) {//compare
+                        panel.remove(headerTable);
+                        panel.remove(tableScrollPane);
+                    }
+                }
+                if (panel.getComponents().length == 0) {
+                    tp.remove(currentTabScrollPane);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -158,20 +195,20 @@ public class UI {
                 } else {
                     switch (searchStrategy) {
                         case "By Name":
-                            h2.queryPart("NAME", condition);
+                            updateByPart(h2, condition, "By Name");
                             break;
                         case "By PartID":
-                            h2.queryPart("PARTID", condition);
+                            updateByPart(h2, condition, "By PartID");
                             break;
                         case "By ModelNum":
-                            h2.queryPart("MODELNUM", condition);
+                            updateByPart(h2, condition, "By ModelNum");
                             break;
                     }
                 }
             } catch (Exception numberException) {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
-        });//sql done, need ui update
+        });//done
         byCategory.addActionListener(e -> {
             try {
                 String condition = JOptionPane.showInputDialog("Enter the name of category", null);
@@ -195,7 +232,7 @@ public class UI {
             } catch (Exception numberException) {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
-        });//sql done, need ui update
+        });//done
         clear.addActionListener(e -> {
             try {
                 update(h2);
