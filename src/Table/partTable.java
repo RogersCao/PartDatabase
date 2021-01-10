@@ -34,6 +34,7 @@ public class partTable {
         }
 
         table = new JTable(defaultTableModel);
+        table.setAutoCreateRowSorter(true);
         for (Object[] datum : data) {
             defaultTableModel.addRow(new Object[]{datum[0], datum[1], datum[2], datum[3], datum[4], datum[5]});
         }

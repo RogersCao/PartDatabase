@@ -13,7 +13,7 @@ public class UI {
     static JMenuBar menuBar;
     // file Menu
     static JMenu fileMenu;
-    static JMenuItem m1, m2;
+    static JMenuItem load, save;
     // search menu
     static JMenu searchMenu;
     static JMenuItem byPart, byCategory, byCustomer, clear;
@@ -170,10 +170,12 @@ public class UI {
 
         //file menu
         fileMenu = new JMenu("File");
-        m1 = new JMenuItem("MenuItem1");
-        m2 = new JMenuItem("MenuItem2");
-        fileMenu.add(m1);
-        fileMenu.add(m2);
+        load = new JMenuItem("Load");
+        save = new JMenuItem("Save");
+        load.addActionListener(e -> {});//WIP-------------------------------------
+        save.addActionListener(e -> {});//WIP-------------------------------------
+        fileMenu.add(load);
+        fileMenu.add(save);
 
         //search menu
         searchMenu = new JMenu("Search");
@@ -250,6 +252,9 @@ public class UI {
         stockOut = new JMenuItem("出库");
         stockIn = new JMenuItem("入库");
         update = new JMenuItem("更新信息");
+        stockOut.addActionListener(e -> {});//WIP-------------------------------------
+        stockIn.addActionListener(e -> {});//WIP-------------------------------------
+        update.addActionListener(e -> {});//WIP-------------------------------------
         partOperationMenu.add(stockOut);
         partOperationMenu.add(stockIn);
         partOperationMenu.add(update);
@@ -279,7 +284,7 @@ public class UI {
             } else {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
-        });
+        });//done
         newPart.addActionListener(e -> {
             categoryOptions = new String[categoryList.size()];
             for (int i = 0; i < categoryList.size(); i++) {
@@ -322,7 +327,7 @@ public class UI {
             } catch (Exception numberException) {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
-        });
+        });//done
         newOp.add(newCategory);
         newOp.add(newPart);
 
