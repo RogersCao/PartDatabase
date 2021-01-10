@@ -4,6 +4,7 @@ import Obj.Customer;
 import Table.partCategory;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
@@ -60,23 +61,32 @@ public class UI {
         for (Category temp : categoryList) {
             tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
         }
-
-        Component[] tpComponents = tp.getComponents();
-        for (Component currentTabScrollPane : tpComponents) {//the ScrollPane component of each tab
-            JScrollPane pane = (JScrollPane) currentTabScrollPane;
-            JViewport view = pane.getViewport();
-            Component component = view.getComponents()[0];
-            JPanel panel = (JPanel) component;
-            Component[] components = panel.getComponents();
-            for (int i = 0; i < components.length; i += 2) {
-                JTable headerTable = (JTable) components[i];//零件信息table
-                JScrollPane tableScrollPane = (JScrollPane) components[i + 1];
-                JViewport viewSecond = tableScrollPane.getViewport();
-                Component[] tableScrollPaneContent = viewSecond.getComponents();
-                JTable table = (JTable) tableScrollPaneContent[0];//记录table
-                //compare
-                //remove
+        try {
+            Component[] tpComponents = tp.getComponents();
+            for (Component currentTabScrollPane : tpComponents) {//the ScrollPane component of each tab
+                JScrollPane pane = (JScrollPane) currentTabScrollPane;
+                JViewport view = pane.getViewport();
+                Component component = view.getComponents()[0];
+                JPanel panel = (JPanel) component;
+                Component[] components = panel.getComponents();
+                for (int i = 0; i < components.length; i += 2) {
+                    JTable headerTable = (JTable) components[i];//零件信息table
+                    JScrollPane tableScrollPane = (JScrollPane) components[i + 1];
+                    JViewport viewSecond = tableScrollPane.getViewport();
+                    Component[] tableScrollPaneContent = viewSecond.getComponents();
+                    JTable table = (JTable) tableScrollPaneContent[0];//记录table
+                    DefaultTableModel tableModel = ((DefaultTableModel) table.getModel());
+                    for (int j = 0; j < table.getRowCount(); j++) {//for each table, do evaluate and delete
+                        String temp = (String) table.getModel().getValueAt(j, 1);
+                        if (!temp.toLowerCase().contains(condition.toLowerCase())) {//compare
+                            System.out.println("found ");
+                            tableModel.removeRow(j);
+                        }
+                    }
+                }
             }
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -151,7 +161,7 @@ public class UI {
             } catch (Exception numberException) {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
-        });
+        });//sql done, need ui update
         byCategory.addActionListener(e -> {
             try {
                 String condition = JOptionPane.showInputDialog("Enter the name of category", null);
@@ -163,7 +173,7 @@ public class UI {
             } catch (Exception numberException) {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
-        });
+        });//done
         byCustomer.addActionListener(e -> {
             try {
                 String condition = JOptionPane.showInputDialog("Enter the name of customer", null);
@@ -175,14 +185,14 @@ public class UI {
             } catch (Exception numberException) {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
-        });
+        });//sql done, need ui update
         clear.addActionListener(e -> {
             try {
                 update(h2);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
-        });
+        });//done
         searchMenu.add(byPart);
         searchMenu.add(byCategory);
         searchMenu.add(byCustomer);
