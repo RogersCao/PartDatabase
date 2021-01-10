@@ -69,24 +69,34 @@ public class UI {
                 Component component = view.getComponents()[0];
                 JPanel panel = (JPanel) component;
                 Component[] components = panel.getComponents();
-                for (int i = 0; i < components.length; i += 2) {
+                int componentCount = components.length;
+                for (int i = 0; i < componentCount; i += 2) {
                     JTable headerTable = (JTable) components[i];//零件信息table
                     JScrollPane tableScrollPane = (JScrollPane) components[i + 1];
                     JViewport viewSecond = tableScrollPane.getViewport();
                     Component[] tableScrollPaneContent = viewSecond.getComponents();
                     JTable table = (JTable) tableScrollPaneContent[0];//记录table
                     DefaultTableModel tableModel = ((DefaultTableModel) table.getModel());
-                    for (int j = 0; j < table.getRowCount(); j++) {//for each table, do evaluate and delete
+                    int rowCount = table.getRowCount();
+                    for (int j = 0; j < rowCount; j++) {
                         String temp = (String) table.getModel().getValueAt(j, 1);
                         if (!temp.toLowerCase().contains(condition.toLowerCase())) {//compare
-                            System.out.println("found ");
                             tableModel.removeRow(j);
+                            j--;
+                            rowCount = table.getRowCount();
                         }
                     }
+                    if (table.getRowCount() == 0) {
+                        panel.remove(headerTable);
+                        panel.remove(tableScrollPane);
+                    }
+                }
+                if (panel.getComponents().length == 0) {
+                    tp.remove(currentTabScrollPane);
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

@@ -4,6 +4,7 @@ import Obj.Customer;
 import Obj.Part;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -14,6 +15,9 @@ public class partTable {
     public partTable(Part part, List<Customer> customerList) {
         String[] columnNames = {"Date", "Customer", "Qty.IN", "Qty.OUT", "Stock", "Remarks"};
         Object[][] data = new Object[part.recordList.size()][6];
+
+        DefaultTableModel defaultTableModel = new DefaultTableModel(0, 0);
+        defaultTableModel.setColumnIdentifiers(columnNames);
 
         for (int i = 0; i < part.recordList.size(); i++) {
             SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
@@ -29,8 +33,11 @@ public class partTable {
             data[i][5] = part.recordList.get(i).Remark;
         }
 
+        table = new JTable(defaultTableModel);
+        for (Object[] datum : data) {
+            defaultTableModel.addRow(new Object[]{datum[0], datum[1], datum[2], datum[3], datum[4], datum[5]});
+        }
 
-        table = new JTable(data, columnNames);
         Font headerFont = new Font("Verdana", Font.PLAIN, 18);
         table.getTableHeader().setFont(headerFont);
         table.getTableHeader().setReorderingAllowed(false);
@@ -62,9 +69,9 @@ public class partTable {
 
         //action on change
         table.getModel().addTableModelListener(e -> {
-            System.out.println(e.getFirstRow());
-            System.out.println(e.getColumn());
-            System.out.println(table.getModel().getValueAt(e.getFirstRow(), e.getColumn()));
+//            System.out.println(e.getFirstRow());
+//            System.out.println(e.getColumn());
+//            System.out.println(table.getModel().getValueAt(e.getFirstRow(), e.getColumn()));
         });
 
         //action on click
