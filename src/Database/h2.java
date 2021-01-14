@@ -16,8 +16,6 @@ import java.util.UUID;
 public class h2 {
     // 数据库连接URL，当前连接的是C:/H2目录下的db数据库(h2数据存储有两种模式,一种是存储在硬盘上,一种是存储在内存中)
     private static final String JDBC_URL = "jdbc:h2:./db"; //jdbc:h2:mem:数据库名称
-//    private static final String JDBC_URL = "jdbc:h2:C:/H2/db"; //jdbc:h2:mem:数据库名称
-
     private static final String USER = "root";
     private static final String PASSWORD = "111000Cao";
     private static final String DRIVER_CLASS = "org.h2.Driver";
@@ -100,8 +98,6 @@ public class h2 {
         }
     }// 查询part
 
-
-
     public void queryRecord() throws Exception {
         ResultSet rs = stmt.executeQuery("SELECT * FROM Record");
         while (rs.next()) {
@@ -170,31 +166,4 @@ public class h2 {
         stmt.close();
         conn.close();
     }// 释放资源 关闭连接
-
-//    public static void main(String[] args) {
-//        h2 h2 = new h2();
-//        try {
-//            h2.connection();
-//            h2.statement();
-////            h2.createTable();
-//            h2.queryCategory();
-////            h2.insertRecord("DATE '2020-1-11'","9e35fcf1-4bd7-47f0-af32-f870c6f18afd","LA0154",0,2,8,"");
-////            h2.insertRecord("DATE '2020-1-11'","566d353d-4508-41ed-80b1-9d33e17647fd","LA0154",0,2,6,"");
-//
-////            h2.queryCategoryList();
-////            h2.queryCustomer();
-////            h2.queryPart();
-////            h2.queryRecord();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("场面一度十分尴尬");
-//        } finally {
-//            try {
-//                h2.close();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                System.out.println("关都关不上了");
-//            }
-//        }
-//    }
 }

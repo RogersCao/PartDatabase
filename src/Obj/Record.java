@@ -15,7 +15,7 @@ public class Record {
 
     public Record(String RecordID, String Date, String CustomerID, String PartID, int QuantityIN, int QuantityOUT, int CurrentStock, String Remark) throws ParseException {
         this.RecordID = RecordID;
-        this.Date = new SimpleDateFormat("yyyy-MM-dd").parse(Date);  ;
+        this.Date = new SimpleDateFormat("yyyy-MM-dd").parse(Date);
         this.CustomerID = CustomerID;
         this.PartID = PartID;
         this.QuantityIN = QuantityIN;

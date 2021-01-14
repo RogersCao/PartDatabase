@@ -1,7 +1,6 @@
 package Obj;
 
 public class Customer {
-
     public String CustomerID;
     public String Name;
 

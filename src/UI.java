@@ -149,8 +149,7 @@ public class UI {
     }
 
     public static void main(String[] args) throws Exception {
-        //h2 db connection
-        h2 h2 = new h2();
+        h2 h2 = new h2();//h2 db connection
         try {
             h2.connection();
             h2.statement();
@@ -172,8 +171,10 @@ public class UI {
         fileMenu = new JMenu("File");
         load = new JMenuItem("Load");
         save = new JMenuItem("Save");
-        load.addActionListener(e -> {});//WIP-------------------------------------
-        save.addActionListener(e -> {});//WIP-------------------------------------
+        load.addActionListener(e -> {
+        });//WIP-------------------------------------
+        save.addActionListener(e -> {
+        });//WIP-------------------------------------
         fileMenu.add(load);
         fileMenu.add(save);
 
@@ -252,9 +253,12 @@ public class UI {
         stockOut = new JMenuItem("出库");
         stockIn = new JMenuItem("入库");
         update = new JMenuItem("更新信息");
-        stockOut.addActionListener(e -> {});//WIP-------------------------------------
-        stockIn.addActionListener(e -> {});//WIP-------------------------------------
-        update.addActionListener(e -> {});//WIP-------------------------------------
+        stockOut.addActionListener(e -> {
+        });//WIP-------------------------------------
+        stockIn.addActionListener(e -> {
+        });//WIP-------------------------------------
+        update.addActionListener(e -> {
+        });//WIP-------------------------------------
         partOperationMenu.add(stockOut);
         partOperationMenu.add(stockIn);
         partOperationMenu.add(update);
