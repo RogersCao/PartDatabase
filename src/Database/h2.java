@@ -9,7 +9,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -108,6 +110,17 @@ public class h2 {
         }
     }// 查询数据
 
+    public int queryStockQuantity(String partID) throws Exception {
+        System.out.println("stock check");
+        String query = "SELECT * FROM Record WHERE PARTID = " + "'" + partID + "'";
+        ResultSet rs = stmt.executeQuery(query);
+        int stock;
+        rs.last();
+        stock = Integer.parseInt(rs.getString("CURRENTSTOCK"));
+        System.out.println(stock);
+        return stock;
+    }// 查询数量
+
     //不要动，这些是生成全部数据使用的----------------------------------------------------------------------------------------
     public List<Category> queryCategoryList() throws Exception {
         h2 h2 = new h2();
@@ -166,4 +179,20 @@ public class h2 {
         stmt.close();
         conn.close();
     }// 释放资源 关闭连接
+
+    public static void main(String[] args) throws Exception {
+//        h2 h2 = new h2();//h2 db connection
+//        try {
+//            h2.connection();
+//            h2.statement();
+//            h2.createTable();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("场面一度十分尴尬");
+//        }
+//        int a = h2.queryStockQuantity("fe0cf13f-44cc-4855-be39-724a85692e73", "LA0131");
+//        System.out.println(a);
+
+    }
 }

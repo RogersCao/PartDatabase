@@ -1,6 +1,7 @@
 import Database.h2;
 import Obj.Category;
 import Obj.Customer;
+import Obj.Part;
 import Table.partCategory;
 
 import javax.swing.*;
@@ -23,7 +24,7 @@ public class UI {
     //newOp Menu
     static JMenu newOp;
     static JMenuItem newCategory, newPart;
-    static String[] categoryOptions;
+    static String[] categoryOptions, partOptions, customerOptions;
     // h2 data
     static List<Category> categoryList;
     static List<Customer> customerList;
@@ -254,6 +255,142 @@ public class UI {
         stockIn = new JMenuItem("入库");
         update = new JMenuItem("更新信息");
         stockOut.addActionListener(e -> {
+            try {
+                categoryList = h2.queryCategoryList();
+                customerList = h2.queryCustomerList();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }//update local info
+
+            //category
+            categoryOptions = new String[categoryList.size()];
+            for (int i = 0; i < categoryList.size(); i++) {
+                categoryOptions[i] = categoryList.get(i).name;
+            }
+            String categoryName = (String) JOptionPane.showInputDialog(null, "Choose category...",
+                    "Choose category", JOptionPane.QUESTION_MESSAGE, null,
+                    categoryOptions, // Array of choices
+                    categoryOptions[0]); // Initial choice
+            Category category = null;
+            for (Category categoryItemTemp : categoryList) {
+                if (categoryItemTemp.name.equals(categoryName)) {
+                    category = categoryItemTemp;
+                }
+            }
+
+            //part
+            assert category != null;
+            partOptions = new String[category.partList.size()];
+            for (int i = 0; i < category.partList.size(); i++) {
+                partOptions[i] = category.partList.get(i).name + " : " + category.partList.get(i).partId;
+            }
+            String partName = (String) JOptionPane.showInputDialog(null, "Choose part...",
+                    "Choose part", JOptionPane.QUESTION_MESSAGE, null,
+                    partOptions, // Array of choices
+                    partOptions[0]); // Initial choice
+            Part part = null;
+            for (Part partItemTemp : category.partList) {
+                String temp = partItemTemp.name + " : " + partItemTemp.partId;
+                if (temp.equals(partName)) {
+                    part = partItemTemp;
+                }
+            }
+            assert part != null;
+            String partID = part.partId;
+
+            //quantity
+            int quantity = Integer.parseInt(JOptionPane.showInputDialog("Enter quantity", null));
+
+            //date
+            JTextField yearField = new JTextField(5);
+            JTextField monthField = new JTextField(5);
+            JTextField dayField = new JTextField(5);
+            JPanel datePanel = new JPanel();
+            datePanel.add(new JLabel("Year:"));
+            datePanel.add(yearField);
+            datePanel.add(Box.createHorizontalStrut(15)); // a spacer
+            datePanel.add(new JLabel("Month:"));
+            datePanel.add(monthField);
+            datePanel.add(Box.createHorizontalStrut(15)); // a spacer
+            datePanel.add(new JLabel("Day:"));
+            datePanel.add(dayField);
+            int dateOK = JOptionPane.showConfirmDialog(null, datePanel, "Please Enter date", JOptionPane.OK_CANCEL_OPTION);
+            int year = Integer.parseInt(yearField.getText());
+            int month = Integer.parseInt(monthField.getText());
+            int day = Integer.parseInt(dayField.getText());
+            if (dateOK == JOptionPane.OK_OPTION) {
+                System.out.println("x value: " + yearField.getText());
+                System.out.println("y value: " + monthField.getText());
+                System.out.println("y value: " + dayField.getText());
+            }
+
+            //customer
+            Customer customer = null;
+            customerOptions = new String[customerList.size() + 1];
+            customerOptions[0] = "Enter Manually";
+            for (int i = 1; i < customerList.size(); i++) {
+                customerOptions[i] = customerList.get(i - 1).Name;
+            }
+            String customerName = (String) JOptionPane.showInputDialog(null, "Choose customer...",
+                    "Choose customer", JOptionPane.QUESTION_MESSAGE, null,
+                    customerOptions, // Array of choices
+                    customerOptions[0]); // Initial choice
+            if (!customerName.equals("Enter Manually")) {//picked customer
+                for (Customer customerItemTemp : customerList) {
+                    if (customerItemTemp.Name.equals(customerName)) {
+                        customer = customerItemTemp;
+                    }
+                }
+            }
+
+            //remark
+            String remark = JOptionPane.showInputDialog("Enter remark", null);
+
+            if (!customerName.equals("") && quantity >= 0 && month > 0 && month <= 12 && day <= 31 && day > 0) {
+                if (customerName.equals("Enter Manually")) {//manual customer
+                    customerName = JOptionPane.showInputDialog("Enter the customer", null);
+                    try {
+                        h2.insertCustomer(customerName);//insert a new customer
+                        customerList = h2.queryCustomerList();
+                        for (Customer customerItemTemp : customerList) {
+                            if (customerItemTemp.Name.equals(customerName)) {
+                                customer = customerItemTemp;
+                            }
+                        }
+                    } catch (Exception exception) {
+                        System.out.println("customerName");
+                        exception.printStackTrace();
+                    }//manual customer input
+                }
+
+                String date = "'" + year + "-" + month + "-" + day + "'";
+
+                int result = JOptionPane.showConfirmDialog(frame,
+                        "Double check: \nPart: " + partName + "\nCustomer: " + customerName + "" + "\nQuantity: " + quantity + "" + "\nDate: " + date + "" + "\nRemark: " + remark + "",
+                        "Final warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    try {
+                        int orignalStock = h2.queryStockQuantity(partID);
+                        System.out.println("orignalStock: " + orignalStock);
+                        int currentStock = orignalStock - quantity;
+                        System.out.println("currentStock: " + currentStock);
+                        if (currentStock >= 0) {
+                            assert customer != null;
+                            h2.insertRecord(date, customer.CustomerID, part.partId, 0, quantity, currentStock, remark);//insert
+                        } else {
+                            System.out.println(part.name + part.partId);
+                            JOptionPane.showMessageDialog(null, "No more stock for you to extract", "ALERT", JOptionPane.WARNING_MESSAGE);
+                        }
+                        update(h2);
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                } else if (result == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(null, "OK, try again then.", "ALERT", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+            }
         });//WIP-------------------------------------
         stockIn.addActionListener(e -> {
         });//WIP-------------------------------------
