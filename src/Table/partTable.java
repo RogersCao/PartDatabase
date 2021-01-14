@@ -6,8 +6,12 @@ import Obj.Part;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.font.TextAttribute;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class partTable {
     public JTable table;
@@ -39,10 +43,10 @@ public class partTable {
             defaultTableModel.addRow(new Object[]{datum[0], datum[1], datum[2], datum[3], datum[4], datum[5]});
         }
 
-        Font headerFont = new Font("Verdana", Font.PLAIN, 18);
+        Font headerFont = new Font("STHeiti", Font.PLAIN, 18);
         table.getTableHeader().setFont(headerFont);
         table.getTableHeader().setReorderingAllowed(false);
-        table.setFont(new Font("Arial", Font.PLAIN, 18));
+        table.setFont(new Font("STHeiti", Font.PLAIN, 18));
         table.setRowHeight(30);
 
         //set size for tables

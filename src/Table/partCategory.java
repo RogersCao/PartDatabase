@@ -4,6 +4,7 @@ import Obj.Customer;
 import Obj.Part;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 public class partCategory {
@@ -24,8 +25,10 @@ public class partCategory {
     private static void generatePartTable(JPanel panel, Part part, List<Customer> customerList) {
         String[] columnNames = {"零件号", "零件名称", "型号"};
         Object[][] data = {{part.partId, part.name, part.modelNum}};
-
-        panel.add(new JTable(data, columnNames));//header
+        JTable header = new JTable(data, columnNames);
+        panel.add(header);//header
+        header.setFont(new Font("STHeiti", Font.PLAIN, 18));
+        header.setRowHeight(30);
         partTable t = new partTable(part, customerList);//table body (parts)
         panel.add(new JScrollPane(t.table));
     }
