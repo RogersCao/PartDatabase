@@ -69,7 +69,7 @@ public class partCategory {
                                         }
                                     }
                                     break;
-                                case 1://Name
+                                case 1://Name   DONE
                                     result = JOptionPane.showConfirmDialog(null,
                                             "Do you want to edit Name: " + header.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -86,7 +86,7 @@ public class partCategory {
                                         }
                                     }
                                     break;
-                                case 2://ModelNUM (specific)
+                                case 2://ModelNUM (specific)  DONE
                                     result = JOptionPane.showConfirmDialog(null,
                                             "Do you want to edit ModelNUM: " + header.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

@@ -60,28 +60,20 @@ public class h2 {
 
     //query
     public List<Category> queryCategory(String value) throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
         List<Category> list = new ArrayList<>();
         ResultSet rs = stmt.executeQuery("SELECT * FROM Category WHERE UPPER(NAME) LIKE UPPER('%" + value + "%')");
         while (rs.next()) {
             list.add(new Category(rs.getString("CATEGORYID"), rs.getString("Name")));
         }
-        h2.close();
         return list;
     }// 查询category 已完成
 
     public List<Customer> queryCustomer(String value) throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
         List<Customer> list = new ArrayList<>();
         ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE UPPER(NAME) LIKE UPPER('%" + value + "%')");
         while (rs.next()) {
             list.add(new Customer(rs.getString("CUSTOMERID"), rs.getString("NAME")));
         }
-        h2.close();
         return list;
     }// 查询customer reserve
 
@@ -124,113 +116,72 @@ public class h2 {
 
     //update part
     public void updatePartID(String value) throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
         ResultSet rs = stmt.executeQuery("");
         while (rs.next()) {
 
         }
-        h2.close();
     }// updatePartID WIP
 
     public void updatePartName(String id, String value) throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
         stmt.executeUpdate("UPDATE Part SET NAME = '" + value + "' WHERE PARTID = '" + id + "'");
-        h2.close();
-    }// updatePartName WIP
+    }// updatePartName done
 
     public void updatePartModelNUM(String id, String value) throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
         stmt.executeUpdate("UPDATE Part SET MODELNUM  = '" + value + "' WHERE PARTID = '" + id + "'");
-        h2.close();
-    }// updatePartModelNUM WIP
+    }// updatePartModelNUM done
 
     //update part
-    public void updateRecordDate(String value) throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
-        ResultSet rs = stmt.executeQuery("");
-        while (rs.next()) {
-
-        }
-        h2.close();
+    public void updateRecordDate(String id, String value) throws Exception {
+        stmt.executeUpdate("UPDATE Record SET Date  = '" + value + "' WHERE RECORDID   = '" + id + "'");
     }// updateRecordDate WIP
 
-    public void updatePartCustomer(String value) throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
-        ResultSet rs = stmt.executeQuery("");
-        while (rs.next()) {
-
+    public String updateRecordCustomerGetID(String value) throws Exception {
+        try {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE NAME = '" + value + "'");
+            String customerID = null;
+            rs.last();
+            customerID = rs.getString("CUSTOMERID");
+            System.out.println("!" + customerID);
+            return customerID;
+        } catch (SQLException e) {
+            return null;
         }
-        h2.close();
+    }
+
+    public void updateRecordCustomer(String id, String value) throws Exception {
+        System.out.println("we came to update ");
+        stmt.executeUpdate("UPDATE Record SET CUSTOMERID = '" + value + "' WHERE RECORDID   = '" + id + "'");
     }// updatePartCustomer WIP
 
-    public void updatePartQtyIn(String value) throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
-        ResultSet rs = stmt.executeQuery("");
-        while (rs.next()) {
-
-        }
-        h2.close();
+    public void updateRecordQtyIn(String id, String value) throws Exception {
+        stmt.executeUpdate("UPDATE Record SET Date  = '" + value + "' WHERE RECORDID   = '" + id + "'");
     }// updatePartQtyIn WIP
 
-    public void updatePartQtyOut(String value) throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
-        ResultSet rs = stmt.executeQuery("");
-        while (rs.next()) {
-
-        }
-        h2.close();
+    public void updateRecordQtyOut(String id, String value) throws Exception {
+        stmt.executeUpdate("UPDATE Record SET Date  = '" + value + "' WHERE RECORDID   = '" + id + "'");
     }// updatePartQtyOut WIP
 
-    public void updatePartRemarks(String value) throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
-        ResultSet rs = stmt.executeQuery("");
-        while (rs.next()) {
-
-        }
-        h2.close();
+    public void updateRecordRemarks(String id, String value) throws Exception {
+        stmt.executeUpdate("UPDATE Record SET REMARK = '" + value + "' WHERE RECORDID   = '" + id + "'");
     }// updatePartRemarks WIP
 
 
     //不要动，这些是生成全部数据使用的----------------------------------------------------------------------------------------
     public List<Category> queryCategoryList() throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
         List<Category> list = new ArrayList<>();
         ResultSet rs = stmt.executeQuery("SELECT * FROM Category");
         while (rs.next()) {
             list.add(new Category(rs.getString("CATEGORYID"), rs.getString("Name")));
         }
-        h2.close();
         return list;
     }//查询CategoryList (all) (也是update的关键 生成category就可以生成下面的所有信息)
 
     public List<Part> queryPartByCategory(String categoryID) throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
         List<Part> list = new ArrayList<>();
         ResultSet rs = stmt.executeQuery("SELECT * FROM Part WHERE categoryID = '" + categoryID + "'");
         while (rs.next()) {
             list.add(new Part(rs.getString("PartID"), rs.getString("ModelNum"), rs.getString("Name"), rs.getString("CategoryID"), Integer.parseInt(rs.getString("Stock"))));
         }
-        h2.close();
         return list;
     }// 查询Category中的Part
 
@@ -248,15 +199,11 @@ public class h2 {
     }// 查询每一条record return record list
 
     public List<Customer> queryCustomerList() throws Exception {
-        h2 h2 = new h2();
-        h2.connection();
-        h2.statement();
         List<Customer> list = new ArrayList<>();
         ResultSet rs = stmt.executeQuery("SELECT * FROM Customer");
         while (rs.next()) {
             list.add(new Customer(rs.getString("CUSTOMERID"), rs.getString("Name")));
         }
-        h2.close();
         return list;
     }// 查询CategoryList
     //------------------------------------------------------------------------------------------------------------------

@@ -89,7 +89,7 @@ public class partTable {
                         System.out.println(" Record ID is :" + " " + table.getValueAt(row, 6).toString());
                         try {
                             switch (col) {
-                                case 0://date
+                                case 0://date   WIP-----------------------
                                     int result = JOptionPane.showConfirmDialog(null,
                                             "Do you want to edit Date: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -106,7 +106,7 @@ public class partTable {
                                         }
                                     }
                                     break;
-                                case 1://Customer
+                                case 1://Customer DONE
                                     result = JOptionPane.showConfirmDialog(null,
                                             "Do you want to edit Customer: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -114,7 +114,21 @@ public class partTable {
                                         try {
                                             String condition = JOptionPane.showInputDialog("Enter new name", null);
                                             if (!condition.equals("")) {
-//                                                h2.updatePartName(condition);
+                                                if (h2.updateRecordCustomerGetID(condition) != null) {//if customer exsist
+                                                    System.out.println("we went to if");
+                                                    h2.updateRecordCustomer(table.getValueAt(row, 6).toString(), h2.updateRecordCustomerGetID(condition));
+                                                } else {//if customer is new
+                                                    System.out.println("we went to else");
+                                                    int newUser = JOptionPane.showConfirmDialog(null,
+                                                            "Customer does not exist, create new customer?",
+                                                            "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                                    if (newUser == JOptionPane.YES_OPTION) {
+                                                        h2.insertCustomer(condition);
+                                                        h2.updateRecordCustomer(table.getValueAt(row, 6).toString(), h2.updateRecordCustomerGetID(condition));
+                                                    } else {
+                                                        JOptionPane.showMessageDialog(null, "OK, you can always comeback", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                                    }
+                                                }
                                             } else {
                                                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
                                             }
@@ -123,15 +137,20 @@ public class partTable {
                                         }
                                     }
                                     break;
-                                case 2://Qty.In
+                                case 2://Qty.In   WIP-----------------------
                                     result = JOptionPane.showConfirmDialog(null,
                                             "Do you want to edit Qty.In: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                     if (result == JOptionPane.YES_OPTION) {
                                         try {
-                                            String condition = JOptionPane.showInputDialog("Enter new name", null);
+                                            String condition = JOptionPane.showInputDialog("Enter new quantity", null);
                                             if (!condition.equals("")) {
-//                                                h2.updatePartName(condition);
+                                                int quantity = Integer.parseInt(condition);
+                                                if (quantity < 0) {
+                                                    JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                                } else {
+//                                                    h2.updatePartName(condition);
+                                                }
                                             } else {
                                                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
                                             }
@@ -140,15 +159,20 @@ public class partTable {
                                         }
                                     }
                                     break;
-                                case 3://Qty.Out
+                                case 3://Qty.Out   WIP-----------------------
                                     result = JOptionPane.showConfirmDialog(null,
                                             "Do you want to edit Qty.Out: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                     if (result == JOptionPane.YES_OPTION) {
                                         try {
-                                            String condition = JOptionPane.showInputDialog("Enter new name", null);
+                                            String condition = JOptionPane.showInputDialog("Enter new quantity", null);
                                             if (!condition.equals("")) {
-//                                                h2.updatePartName(condition);
+                                                int quantity = Integer.parseInt(condition);
+                                                if (quantity < 0) {
+                                                    JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                                } else {
+//                                                    h2.updatePartName(condition);
+                                                }
                                             } else {
                                                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
                                             }
@@ -157,10 +181,10 @@ public class partTable {
                                         }
                                     }
                                     break;
-                                case 4://Stock num  NO EDIT!
+                                case 4://Stock num  NO EDIT! DONE
                                     JOptionPane.showMessageDialog(null, "You have no right to edit this!", "Warning", JOptionPane.WARNING_MESSAGE);
                                     break;
-                                case 5://Qty.In
+                                case 5://Remarks DONE
                                     result = JOptionPane.showConfirmDialog(null,
                                             "Do you want to edit Remarks: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -168,7 +192,7 @@ public class partTable {
                                         try {
                                             String condition = JOptionPane.showInputDialog("Enter new name", null);
                                             if (!condition.equals("")) {
-//                                                h2.updatePartName(condition);
+                                                h2.updateRecordRemarks(table.getValueAt(row, 6).toString(), condition);
                                             } else {
                                                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
                                             }
@@ -177,14 +201,13 @@ public class partTable {
                                         }
                                     }
                                     break;
-                                case 6://RecordID   NO EDIT!
-                                    JOptionPane.showMessageDialog(null, "You have no right to edit this!", "Warning", JOptionPane.WARNING_MESSAGE);
+                                case 6://RecordID   NO EDIT! DONE
+                                    JOptionPane.showMessageDialog(null, "You have no right to edit RecordID!", "Warning", JOptionPane.WARNING_MESSAGE);
                                     break;
                             }
                         } catch (Exception exception) {
                             exception.printStackTrace();
                         }
-
                     }
                 }
             }
