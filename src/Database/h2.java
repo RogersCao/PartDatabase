@@ -47,8 +47,8 @@ public class h2 {
         stmt.executeUpdate(query);
     }
 
-    public void insertPart(String PartID, String ModelNum, String Name, String categoryID, int stock) throws Exception {
-        String query = "INSERT INTO Part VALUES('" + PartID + "', " + "'" + ModelNum + "', " + "'" + Name + "', " + "'" + categoryID + "', " + stock + ")";
+    public void insertPart(String PartID, String ModelNum, String Name, String categoryID) throws Exception {
+        String query = "INSERT INTO Part VALUES('" + PartID + "', " + "'" + ModelNum + "', " + "'" + Name + "', " + "'" + categoryID + "', 0)";
         System.out.println(query);
         stmt.executeUpdate(query);
     }
@@ -86,16 +86,6 @@ public class h2 {
                     + "," + rs.getString("Stock"));
         }
     }// 查询part reserve
-
-    public void queryRecord() throws Exception {
-        ResultSet rs = stmt.executeQuery("SELECT * FROM Record");
-        while (rs.next()) {
-            System.out.println(rs.getString("RECORDID") + "," + rs.getString("DATE") + ","
-                    + rs.getString("CUSTOMERID") + "," + rs.getString("PARTID") + ","
-                    + rs.getString("QUANTITYIN") + "," + rs.getString("QUANTITYOUT") + ","
-                    + rs.getString("CURRENTSTOCK") + "," + rs.getString("REMARK"));
-        }
-    }// 查询数据 reserve
 
     public int queryStockQuantity(String partID) {
         try {
@@ -149,16 +139,89 @@ public class h2 {
     }
 
     public void updateRecordCustomer(String id, String value) throws Exception {
-        System.out.println("we came to update ");
         stmt.executeUpdate("UPDATE Record SET CUSTOMERID = '" + value + "' WHERE RECORDID   = '" + id + "'");
     }// updatePartCustomer WIP
 
     public void updateRecordQtyIn(String id, String value) throws Exception {
-        stmt.executeUpdate("UPDATE Record SET Date  = '" + value + "' WHERE RECORDID   = '" + id + "'");
-    }// updatePartQtyIn WIP
+        List<Record> recordList = new ArrayList<>();
+        ResultSet partIDRS = stmt.executeQuery("SELECT * FROM Record WHERE RECORDID = '" + id + "'");
+        partIDRS.last();
+        String partID = partIDRS.getString("PARTID");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Record WHERE PARTID = '" + partID + "'");
+        while (rs.next()) {
+            recordList.add(new Record(rs.getString("RECORDID"), rs.getString("DATE"),
+                    rs.getString("CUSTOMERID"), rs.getString("PARTID"),
+                    Integer.parseInt(rs.getString("QUANTITYIN")), Integer.parseInt(rs.getString("QUANTITYOUT")),
+                    Integer.parseInt(rs.getString("CURRENTSTOCK")), rs.getString("REMARK")));
+        }
+        boolean start = false;
+        boolean after = false;
+        int currentStock = 0;
+        for (int i = 0; i < recordList.size(); i++) {
+            if (recordList.get(i).RecordID.equals(id)) {
+                start = true;
+            }
+            if (after) {
+                currentStock = currentStock + recordList.get(i).QuantityIN - recordList.get(i).QuantityOUT;
+                stmt.executeUpdate("UPDATE Record SET CURRENTSTOCK  = " + currentStock + " WHERE RECORDID   = '" + recordList.get(i).RecordID + "'");
+            }
+            if (start) {
+                if (i >= 1) {
+                    currentStock = recordList.get(i - 1).CurrentStock + Integer.parseInt(value) - recordList.get(i).QuantityOUT;
+                    stmt.executeUpdate("UPDATE Record SET QUANTITYIN = " + value + " WHERE RECORDID   = '" + recordList.get(i).RecordID + "'");
+                    stmt.executeUpdate("UPDATE Record SET CURRENTSTOCK  = " + currentStock + " WHERE RECORDID   = '" + recordList.get(i).RecordID + "'");
+                    after = true;
+                    start = false;
+                } else if (i == 0) {
+                    currentStock = Integer.parseInt(value);
+                    stmt.executeUpdate("UPDATE Record SET QUANTITYIN = " + value + " WHERE RECORDID   = '" + recordList.get(i).RecordID + "'");
+                    stmt.executeUpdate("UPDATE Record SET CURRENTSTOCK  = " + currentStock + " WHERE RECORDID   = '" + recordList.get(i).RecordID + "'");
+                    after = true;
+                    start = false;
+                }
+            }
+        }
+    }// updatePartQtyIn DONE
 
     public void updateRecordQtyOut(String id, String value) throws Exception {
-        stmt.executeUpdate("UPDATE Record SET Date  = '" + value + "' WHERE RECORDID   = '" + id + "'");
+        List<Record> recordList = new ArrayList<>();
+        ResultSet partIDRS = stmt.executeQuery("SELECT * FROM Record WHERE RECORDID = '" + id + "'");
+        partIDRS.last();
+        String partID = partIDRS.getString("PARTID");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Record WHERE PARTID = '" + partID + "'");
+        while (rs.next()) {
+            recordList.add(new Record(rs.getString("RECORDID"), rs.getString("DATE"),
+                    rs.getString("CUSTOMERID"), rs.getString("PARTID"),
+                    Integer.parseInt(rs.getString("QUANTITYIN")), Integer.parseInt(rs.getString("QUANTITYOUT")),
+                    Integer.parseInt(rs.getString("CURRENTSTOCK")), rs.getString("REMARK")));
+        }
+        boolean start = false;
+        boolean after = false;
+        int currentStock = 0;
+        for (int i = 0; i < recordList.size(); i++) {
+            if (recordList.get(i).RecordID.equals(id)) {
+                start = true;
+            }
+            if (after) {
+                currentStock = currentStock + recordList.get(i).QuantityIN - recordList.get(i).QuantityOUT;
+                stmt.executeUpdate("UPDATE Record SET CURRENTSTOCK  = " + currentStock + " WHERE RECORDID   = '" + recordList.get(i).RecordID + "'");
+            }
+            if (start) {
+                if (i >= 1) {
+                    currentStock = recordList.get(i - 1).CurrentStock + recordList.get(i).QuantityIN - Integer.parseInt(value);
+                    stmt.executeUpdate("UPDATE Record SET QUANTITYOUT = " + value + " WHERE RECORDID   = '" + recordList.get(i).RecordID + "'");
+                    stmt.executeUpdate("UPDATE Record SET CURRENTSTOCK  = " + currentStock + " WHERE RECORDID   = '" + recordList.get(i).RecordID + "'");
+                    after = true;
+                    start = false;
+                } else if (i == 0) {
+                    currentStock = Integer.parseInt(value);
+                    stmt.executeUpdate("UPDATE Record SET QUANTITYOUT = " + value + " WHERE RECORDID   = '" + recordList.get(i).RecordID + "'");
+                    stmt.executeUpdate("UPDATE Record SET CURRENTSTOCK  = " + currentStock + " WHERE RECORDID   = '" + recordList.get(i).RecordID + "'");
+                    after = true;
+                    start = false;
+                }
+            }
+        }
     }// updatePartQtyOut WIP
 
     public void updateRecordRemarks(String id, String value) throws Exception {

@@ -7,14 +7,16 @@ import Table.partCategory;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class UI {
     static JFrame frame;
     static JMenuBar menuBar;
     // file Menu
-    static JMenu fileMenu;
-    static JMenuItem load, save;
+    static JMenu helpMenu;
+    static JMenuItem help, refresh;
     // search menu
     static JMenu searchMenu;
     static JMenuItem byPart, byCategory, byCustomer, clear;
@@ -562,19 +564,16 @@ public class UI {
                     categoryOptions[0]); // Initial choice
 
             try {
-                int quantity = Integer.parseInt(JOptionPane.showInputDialog("Enter the initial quantity", null));
-                if (quantity < 0) {
-                    JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
-                }
+
                 if (!partID.equals("") && !modelID.equals("") && !name.equals("")) {
                     for (Category value : categoryList) {
                         if (value.name.equals(category)) {
                             int result = JOptionPane.showConfirmDialog(frame,
-                                    "Double check: \nPartID: " + partID + "\nModelID: " + modelID + "\nName: " + name + "\nCategory: " + category + "\nQuantity: " + quantity + "",
+                                    "Double check: \nPartID: " + partID + "\nModelID: " + modelID + "\nName: " + name + "\nCategory: " + category + "\nQuantity: " + "",
                                     "Final warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                             if (result == JOptionPane.YES_OPTION) {
-                                System.out.println("PartID: " + partID + " modelID: " + modelID + " name: " + name + " categoryID: " + value.categoryID + " quantity: " + quantity);
-                                h2.insertPart(partID, modelID, name, value.categoryID, quantity);//insert into database
+                                System.out.println("PartID: " + partID + " modelID: " + modelID + " name: " + name + " categoryID: " + value.categoryID);
+                                h2.insertPart(partID, modelID, name, value.categoryID);//insert into database
                                 update(h2);
                                 //code for local info update
                             } else if (result == JOptionPane.NO_OPTION) {
@@ -593,10 +592,31 @@ public class UI {
         newOp.add(newCategory);
         newOp.add(newPart);
 
+        //"help" Menu
+        helpMenu = new JMenu("Help");
+        help = new JMenuItem("Help");
+        refresh = new JMenuItem("Refresh");
+        help.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null,
+                    "To update a certain cell, hold Alt and click on the target cell, after you change the value, use Help ----> Refresh button to see change",
+                    "Help Document", JOptionPane.WARNING_MESSAGE);
+        });
+        refresh.addActionListener(e -> {
+            try {
+                update(h2);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+        helpMenu.add(help);
+        helpMenu.add(refresh);
+
         // add menubar to frame
         menuBar.add(searchMenu);
         menuBar.add(partOperationMenu);
         menuBar.add(newOp);
+        menuBar.add(helpMenu);
+
         frame.setJMenuBar(menuBar);
         //END OF MENU
 

@@ -1479,3 +1479,5 @@ org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]
 org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]
 2021-01-16 15:03:33 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]
+2021-01-16 16:35:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]

@@ -94,16 +94,16 @@ public class partTable {
                                             "Do you want to edit Date: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                     if (result == JOptionPane.YES_OPTION) {
-                                        try {
-                                            String condition = JOptionPane.showInputDialog("Enter new name", null);
-                                            if (!condition.equals("")) {
-//                                                h2.updatePartName(condition);
-                                            } else {
-                                                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
-                                            }
-                                        } catch (Exception numberException) {
-                                            JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
-                                        }
+//                                        try {
+//                                            String condition = JOptionPane.showInputDialog("Enter new name", null);
+//                                            if (!condition.equals("")) {
+////                                                h2.updatePartName(condition);
+//                                            } else {
+//                                                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+//                                            }
+//                                        } catch (Exception numberException) {
+//                                            JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+//                                        }
                                     }
                                     break;
                                 case 1://Customer DONE
@@ -137,7 +137,7 @@ public class partTable {
                                         }
                                     }
                                     break;
-                                case 2://Qty.In   WIP-----------------------
+                                case 2://Qty.In   DONE
                                     result = JOptionPane.showConfirmDialog(null,
                                             "Do you want to edit Qty.In: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -149,7 +149,7 @@ public class partTable {
                                                 if (quantity < 0) {
                                                     JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
                                                 } else {
-//                                                    h2.updatePartName(condition);
+                                                    h2.updateRecordQtyIn(table.getValueAt(row, 6).toString(), condition);
                                                 }
                                             } else {
                                                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
@@ -159,9 +159,9 @@ public class partTable {
                                         }
                                     }
                                     break;
-                                case 3://Qty.Out   WIP-----------------------
+                                case 3://Qty.Out   DONE
                                     result = JOptionPane.showConfirmDialog(null,
-                                            "Do you want to edit Qty.Out: " + table.getValueAt(row, col).toString() + "?",
+                                            "Do you want to edit Qty.In: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                     if (result == JOptionPane.YES_OPTION) {
                                         try {
@@ -171,7 +171,7 @@ public class partTable {
                                                 if (quantity < 0) {
                                                     JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
                                                 } else {
-//                                                    h2.updatePartName(condition);
+                                                    h2.updateRecordQtyOut(table.getValueAt(row, 6).toString(), condition);
                                                 }
                                             } else {
                                                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
