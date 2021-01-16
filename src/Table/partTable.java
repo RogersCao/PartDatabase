@@ -1,5 +1,6 @@
 package Table;
 
+import Database.h2;
 import Obj.Customer;
 import Obj.Part;
 
@@ -12,7 +13,7 @@ import java.util.List;
 public class partTable {
     public JTable table;
 
-    public partTable(Part part, List<Customer> customerList) {
+    public partTable(h2 h2, Part part, List<Customer> customerList) {
         String[] columnNames = {"Date", "Customer", "Qty.IN", "Qty.OUT", "Stock", "Remarks", ""};
         Object[][] data = new Object[part.recordList.size()][7];
 
@@ -93,6 +94,16 @@ public class partTable {
                                             "Do you want to edit Date: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                     if (result == JOptionPane.YES_OPTION) {
+                                        try {
+                                            String condition = JOptionPane.showInputDialog("Enter new name", null);
+                                            if (!condition.equals("")) {
+//                                                h2.updatePartName(condition);
+                                            } else {
+                                                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                            }
+                                        } catch (Exception numberException) {
+                                            JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                        }
                                     }
                                     break;
                                 case 1://Customer
@@ -100,6 +111,16 @@ public class partTable {
                                             "Do you want to edit Customer: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                     if (result == JOptionPane.YES_OPTION) {
+                                        try {
+                                            String condition = JOptionPane.showInputDialog("Enter new name", null);
+                                            if (!condition.equals("")) {
+//                                                h2.updatePartName(condition);
+                                            } else {
+                                                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                            }
+                                        } catch (Exception numberException) {
+                                            JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                        }
                                     }
                                     break;
                                 case 2://Qty.In
@@ -107,6 +128,16 @@ public class partTable {
                                             "Do you want to edit Qty.In: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                     if (result == JOptionPane.YES_OPTION) {
+                                        try {
+                                            String condition = JOptionPane.showInputDialog("Enter new name", null);
+                                            if (!condition.equals("")) {
+//                                                h2.updatePartName(condition);
+                                            } else {
+                                                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                            }
+                                        } catch (Exception numberException) {
+                                            JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                        }
                                     }
                                     break;
                                 case 3://Qty.Out
@@ -114,6 +145,16 @@ public class partTable {
                                             "Do you want to edit Qty.Out: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                     if (result == JOptionPane.YES_OPTION) {
+                                        try {
+                                            String condition = JOptionPane.showInputDialog("Enter new name", null);
+                                            if (!condition.equals("")) {
+//                                                h2.updatePartName(condition);
+                                            } else {
+                                                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                            }
+                                        } catch (Exception numberException) {
+                                            JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                        }
                                     }
                                     break;
                                 case 4://Stock num  NO EDIT!
@@ -124,6 +165,16 @@ public class partTable {
                                             "Do you want to edit Remarks: " + table.getValueAt(row, col).toString() + "?",
                                             "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                     if (result == JOptionPane.YES_OPTION) {
+                                        try {
+                                            String condition = JOptionPane.showInputDialog("Enter new name", null);
+                                            if (!condition.equals("")) {
+//                                                h2.updatePartName(condition);
+                                            } else {
+                                                JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                            }
+                                        } catch (Exception numberException) {
+                                            JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
+                                        }
                                     }
                                     break;
                                 case 6://RecordID   NO EDIT!

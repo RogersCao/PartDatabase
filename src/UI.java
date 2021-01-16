@@ -38,7 +38,7 @@ public class UI {
 
         //each part has own table in tab pane
         for (Category temp : categoryList) {
-            tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
+            tp.add(temp.name, new partCategory(h2, temp.partList, customerList).sp);
         }
     }
 
@@ -49,7 +49,7 @@ public class UI {
 
         //each part has own table in tab pane
         for (Category temp : categoryList) {
-            tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
+            tp.add(temp.name, new partCategory(h2, temp.partList, customerList).sp);
         }
     }
 
@@ -60,7 +60,7 @@ public class UI {
 
         //each part has own table in tab pane
         for (Category temp : categoryList) {
-            tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
+            tp.add(temp.name, new partCategory(h2, temp.partList, customerList).sp);
         }
         try {
             Component[] tpComponents = tp.getComponents();
@@ -108,7 +108,7 @@ public class UI {
 
         //each part has own table in tab pane
         for (Category temp : categoryList) {
-            tp.add(temp.name, new partCategory(temp.partList, customerList).sp);
+            tp.add(temp.name, new partCategory(h2, temp.partList, customerList).sp);
         }
         try {
             Component[] tpComponents = tp.getComponents();

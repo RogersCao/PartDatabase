@@ -122,6 +122,91 @@ public class h2 {
 
     }// 查询数量 已完成
 
+    //update part
+    public void updatePartID(String value) throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        ResultSet rs = stmt.executeQuery("");
+        while (rs.next()) {
+
+        }
+        h2.close();
+    }// updatePartID WIP
+
+    public void updatePartName(String id, String value) throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        stmt.executeUpdate("UPDATE Part SET NAME = '" + value + "' WHERE PARTID = '" + id + "'");
+        h2.close();
+    }// updatePartName WIP
+
+    public void updatePartModelNUM(String id, String value) throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        stmt.executeUpdate("UPDATE Part SET MODELNUM  = '" + value + "' WHERE PARTID = '" + id + "'");
+        h2.close();
+    }// updatePartModelNUM WIP
+
+    //update part
+    public void updateRecordDate(String value) throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        ResultSet rs = stmt.executeQuery("");
+        while (rs.next()) {
+
+        }
+        h2.close();
+    }// updateRecordDate WIP
+
+    public void updatePartCustomer(String value) throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        ResultSet rs = stmt.executeQuery("");
+        while (rs.next()) {
+
+        }
+        h2.close();
+    }// updatePartCustomer WIP
+
+    public void updatePartQtyIn(String value) throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        ResultSet rs = stmt.executeQuery("");
+        while (rs.next()) {
+
+        }
+        h2.close();
+    }// updatePartQtyIn WIP
+
+    public void updatePartQtyOut(String value) throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        ResultSet rs = stmt.executeQuery("");
+        while (rs.next()) {
+
+        }
+        h2.close();
+    }// updatePartQtyOut WIP
+
+    public void updatePartRemarks(String value) throws Exception {
+        h2 h2 = new h2();
+        h2.connection();
+        h2.statement();
+        ResultSet rs = stmt.executeQuery("");
+        while (rs.next()) {
+
+        }
+        h2.close();
+    }// updatePartRemarks WIP
+
+
     //不要动，这些是生成全部数据使用的----------------------------------------------------------------------------------------
     public List<Category> queryCategoryList() throws Exception {
         h2 h2 = new h2();
