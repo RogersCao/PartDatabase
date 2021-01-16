@@ -5,13 +5,8 @@ import Obj.Customer;
 import Obj.Part;
 import Obj.Record;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -111,14 +106,20 @@ public class h2 {
     }// 查询数据
 
     public int queryStockQuantity(String partID) throws Exception {
-        System.out.println("stock check");
-        String query = "SELECT * FROM Record WHERE PARTID = " + "'" + partID + "'";
-        ResultSet rs = stmt.executeQuery(query);
-        int stock;
-        rs.last();
-        stock = Integer.parseInt(rs.getString("CURRENTSTOCK"));
-        System.out.println(stock);
-        return stock;
+        try {
+            String query = "SELECT * FROM Record WHERE PARTID = " + "'" + partID + "'";
+            ResultSet rs = stmt.executeQuery(query);
+            int stock;
+            rs.last();
+            stock = Integer.parseInt(rs.getString("CURRENTSTOCK"));
+            System.out.println(stock);
+            return stock;
+        } catch (SQLException e) {
+//            if(e.getSQLState().startsWith("02")){
+            return 0;
+//            }
+        }
+
     }// 查询数量
 
     //不要动，这些是生成全部数据使用的----------------------------------------------------------------------------------------

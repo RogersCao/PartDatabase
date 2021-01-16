@@ -6,12 +6,8 @@ import Obj.Part;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.font.TextAttribute;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class partTable {
     public JTable table;
@@ -38,7 +34,6 @@ public class partTable {
         }
 
         table = new JTable(defaultTableModel);
-        table.setAutoCreateRowSorter(true);
         for (Object[] datum : data) {
             defaultTableModel.addRow(new Object[]{datum[0], datum[1], datum[2], datum[3], datum[4], datum[5]});
         }
@@ -71,13 +66,6 @@ public class partTable {
         table.getColumnModel().getColumn(4).setPreferredWidth(COLUMN_4_WIDTH);
         table.getColumnModel().getColumn(4).setMinWidth(COLUMN_4_WIDTH);
         table.getColumnModel().getColumn(4).setMaxWidth(COLUMN_4_WIDTH);
-
-        //action on change
-        table.getModel().addTableModelListener(e -> {
-//            System.out.println(e.getFirstRow());
-//            System.out.println(e.getColumn());
-//            System.out.println(table.getModel().getValueAt(e.getFirstRow(), e.getColumn()));
-        });
 
         //action on click
         table.addMouseListener(new java.awt.event.MouseAdapter() {

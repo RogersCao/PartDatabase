@@ -253,7 +253,7 @@ public class UI {
         partOperationMenu = new JMenu("Part Operation");
         stockOut = new JMenuItem("出库");
         stockIn = new JMenuItem("入库");
-        update = new JMenuItem("更新信息");
+//        update = new JMenuItem("更新信息");
         stockOut.addActionListener(e -> {
             try {
                 categoryList = h2.queryCategoryList();
@@ -530,11 +530,11 @@ public class UI {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
         });//done
-        update.addActionListener(e -> {
-        });//WIP-------------------------------------
+//        update.addActionListener(e -> {
+//        });//WIP-------------------------------------
         partOperationMenu.add(stockOut);
         partOperationMenu.add(stockIn);
-        partOperationMenu.add(update);
+//        partOperationMenu.add(update);
 
         // "new" Menu
         newOp = new JMenu("New");
@@ -609,7 +609,7 @@ public class UI {
         newOp.add(newPart);
 
         // add menubar to frame
-        menuBar.add(fileMenu);
+//        menuBar.add(fileMenu);
         menuBar.add(searchMenu);
         menuBar.add(partOperationMenu);
         menuBar.add(newOp);
