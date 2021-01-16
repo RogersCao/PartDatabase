@@ -26,6 +26,50 @@ public class partCategory {
         String[] columnNames = {"零件号", "零件名称", "型号"};
         Object[][] data = {{part.partId, part.name, part.modelNum}};
         JTable header = new JTable(data, columnNames);
+
+        //action on click
+        header.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.isAltDown()) {
+                    if (e.getButton() == 1) {//left
+                        int row = header.rowAtPoint(e.getPoint());
+                        int col = header.columnAtPoint(e.getPoint());
+                        System.out.println("Alt pressed: " + e.isAltDown() + "left mouse key pressed");
+                        System.out.println(" Value in the cell clicked :" + " " + header.getValueAt(row, col).toString());
+                        System.out.println(" Record ID is :" + " " + header.getValueAt(row, 0).toString());
+                        try {
+                            switch (col) {
+                                case 0://PartID
+                                    int result = JOptionPane.showConfirmDialog(null,
+                                            "Do you want to edit PartID: " + header.getValueAt(row, col).toString() + "?",
+                                            "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                    if (result == JOptionPane.YES_OPTION) {
+                                    }
+                                    break;
+                                case 1://Name
+                                    result = JOptionPane.showConfirmDialog(null,
+                                            "Do you want to edit Name: " + header.getValueAt(row, col).toString() + "?",
+                                            "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                    if (result == JOptionPane.YES_OPTION) {
+                                    }
+                                    break;
+                                case 2://ModelNUM (specific)
+                                    result = JOptionPane.showConfirmDialog(null,
+                                            "Do you want to edit ModelNUM: " + header.getValueAt(row, col).toString() + "?",
+                                            "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                    if (result == JOptionPane.YES_OPTION) {
+                                    }
+                                    break;
+                            }
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
+
+                    }
+                }
+            }
+        });
+
         panel.add(header);//header
         header.setFont(new Font("STHeiti", Font.PLAIN, 18));
         header.setRowHeight(30);

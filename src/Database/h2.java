@@ -83,7 +83,7 @@ public class h2 {
         }
         h2.close();
         return list;
-    }// 查询customer 正在施工
+    }// 查询customer reserve
 
     public void queryPart(String condition, String value) throws Exception {
         System.out.println("SELECT * FROM Part WHERE UPPER(" + condition + ") LIKE UPPER('%" + value + "%')");
@@ -93,7 +93,7 @@ public class h2 {
                     + "," + rs.getString("Name") + "," + rs.getString("CategoryID")
                     + "," + rs.getString("Stock"));
         }
-    }// 查询part
+    }// 查询part reserve
 
     public void queryRecord() throws Exception {
         ResultSet rs = stmt.executeQuery("SELECT * FROM Record");
@@ -103,9 +103,9 @@ public class h2 {
                     + rs.getString("QUANTITYIN") + "," + rs.getString("QUANTITYOUT") + ","
                     + rs.getString("CURRENTSTOCK") + "," + rs.getString("REMARK"));
         }
-    }// 查询数据
+    }// 查询数据 reserve
 
-    public int queryStockQuantity(String partID) throws Exception {
+    public int queryStockQuantity(String partID) {
         try {
             String query = "SELECT * FROM Record WHERE PARTID = " + "'" + partID + "'";
             ResultSet rs = stmt.executeQuery(query);
@@ -120,7 +120,7 @@ public class h2 {
 //            }
         }
 
-    }// 查询数量
+    }// 查询数量 已完成
 
     //不要动，这些是生成全部数据使用的----------------------------------------------------------------------------------------
     public List<Category> queryCategoryList() throws Exception {

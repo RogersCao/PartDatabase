@@ -20,7 +20,7 @@ public class UI {
     static JMenuItem byPart, byCategory, byCustomer, clear;
     // part Operation Menu
     static JMenu partOperationMenu;
-    static JMenuItem stockOut, stockIn, update;
+    static JMenuItem stockOut, stockIn;
     //newOp Menu
     static JMenu newOp;
     static JMenuItem newCategory, newPart;
@@ -168,17 +168,6 @@ public class UI {
         //MENU
         menuBar = new JMenuBar();
 
-        //file menu
-        fileMenu = new JMenu("File");
-        load = new JMenuItem("Load");
-        save = new JMenuItem("Save");
-        load.addActionListener(e -> {
-        });//WIP-------------------------------------
-        save.addActionListener(e -> {
-        });//WIP-------------------------------------
-        fileMenu.add(load);
-        fileMenu.add(save);
-
         //search menu
         searchMenu = new JMenu("Search");
         byPart = new JMenuItem("Search by part");
@@ -253,7 +242,6 @@ public class UI {
         partOperationMenu = new JMenu("Part Operation");
         stockOut = new JMenuItem("出库");
         stockIn = new JMenuItem("入库");
-//        update = new JMenuItem("更新信息");
         stockOut.addActionListener(e -> {
             try {
                 categoryList = h2.queryCategoryList();
@@ -530,11 +518,8 @@ public class UI {
                 JOptionPane.showMessageDialog(null, "The info contains error, try again", "ALERT", JOptionPane.WARNING_MESSAGE);
             }
         });//done
-//        update.addActionListener(e -> {
-//        });//WIP-------------------------------------
         partOperationMenu.add(stockOut);
         partOperationMenu.add(stockIn);
-//        partOperationMenu.add(update);
 
         // "new" Menu
         newOp = new JMenu("New");
@@ -609,7 +594,6 @@ public class UI {
         newOp.add(newPart);
 
         // add menubar to frame
-//        menuBar.add(fileMenu);
         menuBar.add(searchMenu);
         menuBar.add(partOperationMenu);
         menuBar.add(newOp);

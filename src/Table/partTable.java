@@ -13,8 +13,8 @@ public class partTable {
     public JTable table;
 
     public partTable(Part part, List<Customer> customerList) {
-        String[] columnNames = {"Date", "Customer", "Qty.IN", "Qty.OUT", "Stock", "Remarks"};
-        Object[][] data = new Object[part.recordList.size()][6];
+        String[] columnNames = {"Date", "Customer", "Qty.IN", "Qty.OUT", "Stock", "Remarks", ""};
+        Object[][] data = new Object[part.recordList.size()][7];
 
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 0);
         defaultTableModel.setColumnIdentifiers(columnNames);
@@ -31,11 +31,16 @@ public class partTable {
             data[i][3] = part.recordList.get(i).QuantityOUT;
             data[i][4] = part.recordList.get(i).CurrentStock;
             data[i][5] = part.recordList.get(i).Remark;
+            data[i][6] = part.recordList.get(i).RecordID;
         }
 
-        table = new JTable(defaultTableModel);
+        table = new JTable(defaultTableModel) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         for (Object[] datum : data) {
-            defaultTableModel.addRow(new Object[]{datum[0], datum[1], datum[2], datum[3], datum[4], datum[5]});
+            defaultTableModel.addRow(new Object[]{datum[0], datum[1], datum[2], datum[3], datum[4], datum[5], datum[6]});
         }
 
         Font headerFont = new Font("STHeiti", Font.PLAIN, 18);
@@ -66,18 +71,70 @@ public class partTable {
         table.getColumnModel().getColumn(4).setPreferredWidth(COLUMN_4_WIDTH);
         table.getColumnModel().getColumn(4).setMinWidth(COLUMN_4_WIDTH);
         table.getColumnModel().getColumn(4).setMaxWidth(COLUMN_4_WIDTH);
+        final int COLUMN_6_WIDTH = 10;
+        table.getColumnModel().getColumn(6).setPreferredWidth(COLUMN_6_WIDTH);
+        table.getColumnModel().getColumn(6).setMinWidth(COLUMN_6_WIDTH);
+        table.getColumnModel().getColumn(6).setMaxWidth(COLUMN_6_WIDTH);
 
         //action on click
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.isAltDown()) {
-                    int row = table.rowAtPoint(e.getPoint());
-                    int col = table.columnAtPoint(e.getPoint());
-                    System.out.println(e.isAltDown());
-                    System.out.println(e.getButton());
-                    JOptionPane.showMessageDialog(null, " Value in the cell clicked :" + " "
-                            + table.getValueAt(row, col).toString());
-                    System.out.println(" Value in the cell clicked :" + " " + table.getValueAt(row, col).toString());
+                    if (e.getButton() == 1) {//left
+                        int row = table.rowAtPoint(e.getPoint());
+                        int col = table.columnAtPoint(e.getPoint());
+                        System.out.println("Alt pressed: " + e.isAltDown() + "left mouse key pressed");
+                        System.out.println(" Value in the cell clicked :" + " " + table.getValueAt(row, col).toString());
+                        System.out.println(" Record ID is :" + " " + table.getValueAt(row, 6).toString());
+                        try {
+                            switch (col) {
+                                case 0://date
+                                    int result = JOptionPane.showConfirmDialog(null,
+                                            "Do you want to edit Date: " + table.getValueAt(row, col).toString() + "?",
+                                            "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                    if (result == JOptionPane.YES_OPTION) {
+                                    }
+                                    break;
+                                case 1://Customer
+                                    result = JOptionPane.showConfirmDialog(null,
+                                            "Do you want to edit Customer: " + table.getValueAt(row, col).toString() + "?",
+                                            "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                    if (result == JOptionPane.YES_OPTION) {
+                                    }
+                                    break;
+                                case 2://Qty.In
+                                    result = JOptionPane.showConfirmDialog(null,
+                                            "Do you want to edit Qty.In: " + table.getValueAt(row, col).toString() + "?",
+                                            "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                    if (result == JOptionPane.YES_OPTION) {
+                                    }
+                                    break;
+                                case 3://Qty.Out
+                                    result = JOptionPane.showConfirmDialog(null,
+                                            "Do you want to edit Qty.Out: " + table.getValueAt(row, col).toString() + "?",
+                                            "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                    if (result == JOptionPane.YES_OPTION) {
+                                    }
+                                    break;
+                                case 4://Stock num  NO EDIT!
+                                    JOptionPane.showMessageDialog(null, "You have no right to edit this!", "Warning", JOptionPane.WARNING_MESSAGE);
+                                    break;
+                                case 5://Qty.In
+                                    result = JOptionPane.showConfirmDialog(null,
+                                            "Do you want to edit Remarks: " + table.getValueAt(row, col).toString() + "?",
+                                            "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                    if (result == JOptionPane.YES_OPTION) {
+                                    }
+                                    break;
+                                case 6://RecordID   NO EDIT!
+                                    JOptionPane.showMessageDialog(null, "You have no right to edit this!", "Warning", JOptionPane.WARNING_MESSAGE);
+                                    break;
+                            }
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
+
+                    }
                 }
             }
         });
