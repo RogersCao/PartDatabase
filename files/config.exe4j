@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exe4j version="7.0" transformSequenceNumber="3">
+  <directoryPresets config="C:/Users/roger/Desktop" />
+  <application name="noxon" distributionSourceDir="C:/Users/roger/Desktop" />
+  <executable name="run" wrapperType="embed" executableMode="gui" dpiAware="false" />
+  <java mainClass="UI" preferredVM="client" minVersion="1.5" maxVersion="1.8">
+    <searchSequence>
+      <registry />
+      <envVar name="JAVA_HOME" />
+      <envVar name="JDK_HOME" />
+      <directory location="./jre1.8.0_271" />
+    </searchSequence>
+    <classPath>
+      <archive location="C:/Users/roger/Desktop/NOXON.jar" failOnError="false" />
+    </classPath>
+  </java>
+</exe4j>
